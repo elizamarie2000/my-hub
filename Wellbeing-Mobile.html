@@ -935,6 +935,275 @@
   </div>
 </div>
 
+<!-- ── LOG EXERCISE MODAL ─────────────────────────────────── -->
+<div class="modal-overlay" id="exercise-modal">
+  <div class="modal-box" style="max-width:380px">
+    <h2 style="font-size:1.05rem;color:var(--cream);margin-bottom:0.25rem">Log exercise</h2>
+    <p style="color:var(--subtext1);font-size:0.78rem;margin-bottom:1.1rem;font-style:italic">Any movement counts — walks, gym, yoga, swimming...</p>
+    <div style="margin-bottom:0.85rem">
+      <label class="form-label">Date</label>
+      <input type="date" class="form-input" id="ex-date" style="cursor:pointer">
+    </div>
+    <div style="display:grid;grid-template-columns:3fr 2fr;gap:0.75rem;margin-bottom:0.85rem">
+      <div>
+        <label class="form-label">Activity</label>
+        <input type="text" class="form-input" id="ex-type" placeholder="e.g. Walk, Gym, Yoga, Run">
+      </div>
+      <div>
+        <label class="form-label">Duration</label>
+        <div style="position:relative">
+          <input type="number" class="form-input" id="ex-duration" min="1" placeholder="mins" style="padding-right:2.5rem">
+          <span style="position:absolute;right:0.65rem;top:50%;transform:translateY(-50%);font-size:0.72rem;color:var(--overlay0);pointer-events:none">min</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-bottom:0.85rem">
+      <div>
+        <label class="form-label">Active cal burnt <span style="color:var(--overlay0);font-style:italic">(opt)</span></label>
+        <input type="number" class="form-input" id="ex-calories" placeholder="e.g. 350" min="0" step="1">
+      </div>
+      <div>
+        <label class="form-label">Resting cal today <span style="color:var(--overlay0);font-style:italic">(opt)</span></label>
+        <input type="number" class="form-input" id="ex-resting" placeholder="e.g. 1650" min="0" step="1">
+      </div>
+    </div>
+    <div style="margin-bottom:1.1rem">
+      <label class="form-label">Notes <span style="color:var(--overlay0);font-style:italic">(optional)</span></label>
+      <input type="text" class="form-input" id="ex-notes" placeholder="e.g. felt strong, outdoor run, PB on squats">
+    </div>
+    <div class="grid-2" style="gap:0.75rem">
+      <button class="btn btn-cream" onclick="saveExercise()">Log it ✦</button>
+      <button class="btn btn-ghost" onclick="closeModal('exercise-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── LOG FOOD MODAL ──────────────────────────────────────── -->
+<div class="modal-overlay" id="food-modal">
+  <div class="modal-box" style="max-width:460px">
+    <h2 style="font-size:1.05rem;color:var(--cream);margin-bottom:0.3rem">Log a meal</h2>
+    <p style="color:var(--subtext1);font-size:0.78rem;margin-bottom:1.1rem;font-style:italic">A gentle diary — calories &amp; macros are optional.</p>
+    <div style="margin-bottom:0.85rem">
+      <label class="form-label">Meal</label>
+      <select class="form-input" id="food-meal-select" style="cursor:pointer;appearance:none;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%238087a2' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 0.75rem center;padding-right:2rem">
+        <option>Breakfast</option>
+        <option>Lunch</option>
+        <option>Dinner</option>
+        <option>Snacks</option>
+      </select>
+    </div>
+    <div style="margin-bottom:0.85rem">
+      <label class="form-label">What did you eat?</label>
+      <textarea class="form-input" id="food-items-input" placeholder="e.g. porridge with berries, coffee" style="min-height:90px;line-height:1.65"></textarea>
+    </div>
+    <div style="margin-bottom:0.85rem">
+      <label class="form-label">Calories <span style="color:var(--overlay0);font-style:italic">(optional)</span></label>
+      <input type="number" class="form-input" id="food-calories-input" placeholder="e.g. 450" min="0" step="1">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.6rem;margin-bottom:0.85rem">
+      <div>
+        <label class="form-label">Protein <span style="color:var(--overlay0)">g</span></label>
+        <input type="number" class="form-input" id="food-protein-input" placeholder="e.g. 30" min="0" step="0.1">
+      </div>
+      <div>
+        <label class="form-label">Carbs <span style="color:var(--overlay0)">g</span></label>
+        <input type="number" class="form-input" id="food-carbs-input" placeholder="e.g. 55" min="0" step="0.1">
+      </div>
+      <div>
+        <label class="form-label">Fat <span style="color:var(--overlay0)">g</span></label>
+        <input type="number" class="form-input" id="food-fat-input" placeholder="e.g. 12" min="0" step="0.1">
+      </div>
+    </div>
+    <div style="margin-bottom:1.1rem">
+      <label class="form-label">How did it feel? <span style="color:var(--overlay0);font-style:italic">(optional)</span></label>
+      <input type="text" class="form-input" id="food-note-input" placeholder="e.g. satisfied, a bit heavy, rushed...">
+    </div>
+    <div class="grid-2" style="gap:0.75rem">
+      <button class="btn btn-cream" onclick="saveFoodEntry()">Log it ✦</button>
+      <button class="btn btn-ghost" onclick="closeModal('food-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── INTENTION MODAL ─────────────────────────────────────── -->
+<div class="modal-overlay" id="intention-modal">
+  <div class="modal-box" style="max-width:460px">
+    <h2 style="font-size:1.05rem;color:var(--mauve);margin-bottom:0.25rem">Today's intention</h2>
+    <p style="color:var(--subtext1);font-size:0.8rem;margin-bottom:1.1rem;font-style:italic">A single, simple sentence to guide your day.</p>
+    <div style="margin-bottom:1.1rem">
+      <textarea class="form-input" id="intention-input" placeholder="e.g. I will be present and kind to myself today." style="min-height:90px;line-height:1.75;font-size:0.9rem;font-style:italic"></textarea>
+    </div>
+    <div class="grid-2" style="gap:0.75rem">
+      <button class="btn btn-cream" onclick="saveIntention()">Set intention ✦</button>
+      <button class="btn btn-ghost" onclick="closeModal('intention-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── GRATITUDE MODAL ─────────────────────────────────────── -->
+<div class="modal-overlay" id="gratitude-modal">
+  <div class="modal-box" style="max-width:460px">
+    <h2 style="font-size:1.05rem;color:var(--yellow);margin-bottom:0.25rem">Add gratitude</h2>
+    <p style="color:var(--subtext1);font-size:0.8rem;margin-bottom:1.1rem;font-style:italic">One thing you're grateful for right now.</p>
+    <div style="margin-bottom:1.1rem">
+      <textarea class="form-input" id="gratitude-input" placeholder="I'm grateful for…" style="min-height:90px;line-height:1.75;font-size:0.9rem;font-style:italic"></textarea>
+    </div>
+    <div class="grid-2" style="gap:0.75rem">
+      <button class="btn btn-cream" onclick="saveGratitude()">Save ✦</button>
+      <button class="btn btn-ghost" onclick="closeModal('gratitude-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── JOURNAL MODAL ──────────────────────────────────────── -->
+<div class="modal-overlay" id="journal-modal">
+  <div class="modal-box" style="max-width:500px">
+    <h2 style="font-size:1.05rem;color:var(--cream);margin-bottom:0.25rem">Journal</h2>
+    <p id="journal-mood-hint" style="color:var(--subtext1);font-size:0.78rem;margin-bottom:1.1rem;font-style:italic"></p>
+    <div style="margin-bottom:0.6rem">
+      <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.6rem">
+        <span style="font-size:0.65rem;color:var(--overlay1);text-transform:uppercase;letter-spacing:0.07em;align-self:center;flex-shrink:0">Prompts:</span>
+        <button onclick="document.getElementById('journal-entry-input').value='What went well today?\n\n'" style="font-size:0.7rem;padding:0.2rem 0.55rem;border-radius:999px;border:1px solid var(--surface2);background:var(--surface0);color:var(--subtext1);cursor:pointer;font-family:var(--font)" type="button">What went well?</button>
+        <button onclick="document.getElementById('journal-entry-input').value='What\'s weighing on me right now?\n\n'" style="font-size:0.7rem;padding:0.2rem 0.55rem;border-radius:999px;border:1px solid var(--surface2);background:var(--surface0);color:var(--subtext1);cursor:pointer;font-family:var(--font)" type="button">What\'s on my mind?</button>
+        <button onclick="document.getElementById('journal-entry-input').value='What am I looking forward to?\n\n'" style="font-size:0.7rem;padding:0.2rem 0.55rem;border-radius:999px;border:1px solid var(--surface2);background:var(--surface0);color:var(--subtext1);cursor:pointer;font-family:var(--font)" type="button">Looking forward to...</button>
+      </div>
+      <textarea class="form-input" id="journal-entry-input" placeholder="Write freely — this is just for you." style="min-height:160px;line-height:1.75;font-size:0.9rem"></textarea>
+    </div>
+    <div class="grid-2" style="gap:0.75rem">
+      <button class="btn btn-cream" onclick="saveJournal()">Save ✦</button>
+      <button class="btn btn-ghost" onclick="closeModal('journal-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── LOG MEASUREMENTS MODAL ─────────────────────────────── -->
+<div class="modal-overlay" id="measure-modal">
+  <div class="modal-box" style="max-width:480px">
+    <h2 style="font-size:1.05rem;color:var(--cream);margin-bottom:0.3rem">Log measurements</h2>
+    <p style="color:var(--subtext1);font-size:0.82rem;margin-bottom:1.25rem;font-style:italic">All in inches. Fill in whichever you want to track — none are required.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.25rem">
+      <div>
+        <label class="form-label">Waist</label>
+        <input type="number" class="form-input" id="m-waist" placeholder='e.g. 34' step="0.1" min="10">
+      </div>
+      <div>
+        <label class="form-label">Chest</label>
+        <input type="number" class="form-input" id="m-chest" placeholder='e.g. 40' step="0.1" min="10">
+      </div>
+      <div>
+        <label class="form-label">Hips</label>
+        <input type="number" class="form-input" id="m-hips" placeholder='e.g. 44' step="0.1" min="10">
+      </div>
+      <div>
+        <label class="form-label">Left thigh</label>
+        <input type="number" class="form-input" id="m-leftThigh" placeholder='e.g. 24' step="0.1" min="5">
+      </div>
+      <div>
+        <label class="form-label">Right thigh</label>
+        <input type="number" class="form-input" id="m-rightThigh" placeholder='e.g. 24' step="0.1" min="5">
+      </div>
+      <div>
+        <label class="form-label">Left arm</label>
+        <input type="number" class="form-input" id="m-leftArm" placeholder='e.g. 13' step="0.1" min="3">
+      </div>
+      <div>
+        <label class="form-label">Right arm</label>
+        <input type="number" class="form-input" id="m-rightArm" placeholder='e.g. 13' step="0.1" min="3">
+      </div>
+      <div>
+        <label class="form-label">Neck</label>
+        <input type="number" class="form-input" id="m-neck" placeholder='e.g. 14' step="0.1" min="5">
+      </div>
+    </div>
+    <div class="grid-2" style="gap:0.75rem">
+      <button class="btn btn-cream" onclick="saveMeasurements()">Save ✦</button>
+      <button class="btn btn-ghost" onclick="closeModal('measure-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── ADD GOAL MODAL ──────────────────────────────────────── -->
+<div class="modal-overlay" id="goal-modal">
+  <div class="modal-box" style="max-width:460px">
+    <h2 style="font-size:1.05rem;color:var(--cream);margin-bottom:0.25rem">New goal</h2>
+    <p style="color:var(--subtext1);font-size:0.78rem;margin-bottom:1.1rem;font-style:italic">Set a clear target and let's track it together.</p>
+    <div style="margin-bottom:0.85rem">
+      <label class="form-label">Goal title</label>
+      <input type="text" class="form-input" id="goal-title-input" placeholder="e.g. Reach 160 lbs, Run a 5K, Read 12 books">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.85rem">
+      <div>
+        <label class="form-label">Category</label>
+        <select class="form-input" id="goal-category-select" style="cursor:pointer;appearance:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%238087a2' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 0.75rem center;padding-right:2rem">
+          <option>Body</option>
+          <option>Mind</option>
+          <option>Habits</option>
+          <option>Lifestyle</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label">Unit <span style="color:var(--overlay0);font-style:italic">(optional)</span></label>
+        <input type="text" class="form-input" id="goal-unit-input" placeholder="e.g. lbs, pages, hrs">
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.85rem">
+      <div>
+        <label class="form-label">Starting value</label>
+        <input type="number" class="form-input" id="goal-start-input" placeholder="e.g. 224" step="any">
+      </div>
+      <div>
+        <label class="form-label">Target value</label>
+        <input type="number" class="form-input" id="goal-target-input" placeholder="e.g. 160" step="any">
+      </div>
+    </div>
+    <div style="margin-bottom:0.85rem">
+      <label class="form-label">Deadline <span style="color:var(--overlay0);font-style:italic">(optional)</span></label>
+      <input type="date" class="form-input" id="goal-deadline-input" style="cursor:pointer">
+    </div>
+    <div style="margin-bottom:1.1rem">
+      <label class="form-label">Notes <span style="color:var(--overlay0);font-style:italic">(optional)</span></label>
+      <textarea class="form-input" id="goal-notes-input" placeholder="Why this goal matters to you..." style="min-height:72px;line-height:1.6;resize:none"></textarea>
+    </div>
+    <div class="grid-2" style="gap:0.75rem">
+      <button class="btn btn-cream" onclick="saveGoal()">Add goal ✦</button>
+      <button class="btn btn-ghost" onclick="closeModal('goal-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── UPDATE GOAL MODAL ───────────────────────────────────── -->
+<div class="modal-overlay" id="goal-update-modal">
+  <div class="modal-box" style="max-width:360px">
+    <h2 style="font-size:1.05rem;color:var(--cream);margin-bottom:0.25rem">Update progress</h2>
+    <p id="goal-update-title" style="color:var(--subtext1);font-size:0.82rem;margin-bottom:1.1rem;font-style:italic"></p>
+    <div style="margin-bottom:1.25rem">
+      <label class="form-label">Current value<span id="goal-update-unit" style="color:var(--overlay1)"></span></label>
+      <input type="number" class="form-input" id="goal-current-input" step="any" style="font-size:1.15rem;text-align:center;font-weight:600;color:var(--cream)">
+    </div>
+    <div class="grid-2" style="gap:0.75rem">
+      <button class="btn btn-cream" onclick="saveGoalUpdate()">Save ✦</button>
+      <button class="btn btn-ghost" onclick="closeModal('goal-update-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── ADD MILESTONE MODAL ────────────────────────────────── -->
+<div class="modal-overlay" id="milestone-modal">
+  <div class="modal-box" style="max-width:380px">
+    <h2 style="font-size:1.05rem;color:var(--cream);margin-bottom:0.25rem">Add milestone</h2>
+    <p id="milestone-goal-label" style="color:var(--subtext1);font-size:0.82rem;margin-bottom:1.1rem;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></p>
+    <div style="margin-bottom:1.25rem">
+      <label class="form-label">Milestone</label>
+      <input type="text" class="form-input" id="milestone-label-input" placeholder="e.g. Hit 200 lbs, Run 1 mile without stopping">
+    </div>
+    <div class="grid-2" style="gap:0.75rem">
+      <button class="btn btn-cream" onclick="saveMilestone()">Add ✦</button>
+      <button class="btn btn-ghost" onclick="closeModal('milestone-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- ── TOAST ──────────────────────────────────────────────── -->
 <div class="toast" id="toast"></div>
 
