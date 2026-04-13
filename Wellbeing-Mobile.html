@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -137,8 +140,8 @@
       display: flex;
       align-items: flex-end;
       justify-content: space-around;
-      padding-bottom: max(50px, calc(20px + env(safe-area-inset-bottom)));
-      height: calc(70px + max(50px, calc(20px + env(safe-area-inset-bottom))));
+      padding-bottom: max(28px, env(safe-area-inset-bottom));
+      height: calc(64px + max(28px, env(safe-area-inset-bottom)));
       -webkit-touch-callout: none;
     }
 
@@ -477,9 +480,10 @@
       background: var(--surface1); color: var(--text);
       border: 1px solid var(--surface2); padding: 0.7rem 1.4rem;
       border-radius: 999px; font-size: 0.875rem;
-      transition: transform 0.3s ease; z-index: 600; white-space: nowrap;
+      transition: transform 0.3s ease, opacity 0.2s ease; z-index: 600; white-space: nowrap;
+      opacity: 0; visibility: hidden; pointer-events: none;
     }
-    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; visibility: visible; }
 
     /* ── DIV ─────────────────────────────────────────────── */
     .div { height: 1px; background: var(--surface0); margin: 1.25rem 0; }
