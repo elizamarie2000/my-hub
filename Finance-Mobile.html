@@ -1,0 +1,3797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="finances ✦">
+  <meta name="theme-color" content="#24273a">
+  <title>finances ✦</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='7' fill='%23e8dcc8'/></svg>">
+  <style>
+    /* ── Catppuccin Macchiato ──────────────────────────── */
+    :root {
+      --base:      #24273a;
+      --mantle:    #1e2030;
+      --crust:     #181926;
+      --surface0:  #363a4f;
+      --surface1:  #494d64;
+      --surface2:  #5b6078;
+      --overlay0:  #6e738d;
+      --overlay1:  #8087a2;
+      --overlay2:  #939ab7;
+      --subtext0:  #a5adcb;
+      --subtext1:  #b8c0e0;
+      --text:      #cad3f5;
+      --lavender:  #b7bdf8;
+      --blue:      #8aadf4;
+      --sapphire:  #7dc4e4;
+      --sky:       #91d7e3;
+      --teal:      #8bd5ca;
+      --cream:     #e8dcc8;
+      --yellow:    #eed49f;
+      --peach:     #f5a97f;
+      --maroon:    #ee99a0;
+      --red:       #ed8796;
+      --mauve:     #c6a0f6;
+      --pink:      #f5bde6;
+      --flamingo:  #f0c6c6;
+      --rosewater: #f4dbd6;
+
+      --font: 'Lora', Georgia, 'Times New Roman', serif;
+      --r:    12px;
+      --r-sm: 8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: var(--base);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── BACKGROUND TEXTURE ──────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: radial-gradient(rgba(202,211,245,0.032) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    main { position: relative; z-index: 1; flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+    nav { position: relative; z-index: 100; }
+
+    /* ── REMOVE SCROLLBAR STYLES (iOS) ──────────────────── */
+    ::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; }
+
+    /* ── HEADER (WITH SAFE AREA) ────────────────────────── */
+    header {
+      padding: max(0.75rem, env(safe-area-inset-top)) 1rem 0.5rem;
+      background: var(--mantle);
+      border-bottom: 1px solid var(--surface0);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .header-home {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      color: var(--overlay1);
+      text-decoration: none;
+      -webkit-appearance: none;
+      appearance: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      -webkit-touch-callout: none;
+    }
+
+    .header-home:active { background: var(--surface0); opacity: 0.97; }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--cream);
+      letter-spacing: 0.03em;
+      flex-shrink: 0;
+    }
+
+    /* ── BOTTOM NAVIGATION BAR ────────────────────────────– */
+    nav.bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: stretch;
+      justify-content: space-around;
+      background: rgba(30,32,48,0.85);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--surface0);
+      height: max(60px, calc(env(safe-area-inset-bottom) + 60px));
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .nav-tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.2rem;
+      background: none;
+      border: none;
+      color: var(--subtext0);
+      font-family: var(--font);
+      font-size: 0.65rem;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      -webkit-touch-callout: none;
+      min-height: 44px;
+    }
+
+    .nav-tab:active { opacity: 0.97; }
+    .nav-tab.active { color: var(--cream); }
+
+    .nav-tab svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 1.8;
+    }
+
+    /* ── PAGES ───────────────────────────────────────────── */
+    .page { display: none; }
+    .page.active {
+      display: block;
+      animation: pageIn 0.22s cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+
+    @keyframes pageIn {
+      from { opacity: 0; transform: translateY(7px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── CONTENT WRAPPER (MOBILE OPTIMIZED) ─────────────– */
+    .content {
+      max-width: 100%;
+      margin: 0;
+      padding: 1.25rem 1rem calc(80px + env(safe-area-inset-bottom) + 1rem);
+    }
+
+    /* ── CARDS ───────────────────────────────────────────── */
+    .card {
+      background: var(--mantle);
+      border: 1px solid var(--surface0);
+      border-radius: var(--r);
+      padding: 1.25rem 1.4rem;
+      transition: border-color 0.18s ease, opacity 0.18s ease;
+      -webkit-touch-callout: none;
+    }
+
+    .card:active {
+      opacity: 0.97;
+      border-color: var(--surface1);
+    }
+
+    .card-inner {
+      background: var(--surface0);
+      border-radius: var(--r-sm);
+      padding: 0.75rem 1rem;
+    }
+
+    /* ── LABEL ───────────────────────────────────────────── */
+    .label {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--overlay1);
+      font-weight: 500;
+    }
+
+    /* ── AMOUNTS ─────────────────────────────────────────── */
+    .amount-hero {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .amount-hero.tight { color: var(--yellow); }
+    .amount-hero.danger { color: var(--red); }
+
+    /* ── PROGRESS BAR ────────────────────────────────────── */
+    .progress-track {
+      background: var(--surface1);
+      border-radius: 999px;
+      height: 7px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ── GRIDS (MOBILE RESPONSIVE) ────────────────────── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+    /* ── CHIPS ───────────────────────────────────────────── */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      font-size: 0.7rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .chip-urgent  { background: rgba(237,135,150,.15); color: var(--red); }
+    .chip-warn    { background: rgba(238,212,159,.15); color: var(--yellow); }
+    .chip-ok      { background: rgba(232,220,200,.15); color: var(--cream); }
+    .chip-dim     { background: var(--surface0); color: var(--overlay1); }
+    .chip-mauve   { background: rgba(198,160,246,.12); color: var(--mauve); }
+    .chip-blue    { background: rgba(138,173,244,.12); color: var(--blue); }
+
+    /* ── BUTTONS (TOUCH OPTIMIZED) ────────────────────── */
+    .btn {
+      background: var(--surface0);
+      color: var(--text);
+      border: 1px solid var(--surface1);
+      font-family: var(--font);
+      font-size: 0.875rem;
+      padding: 0.55rem 1.3rem;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      transition: all 0.15s;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-appearance: none;
+      appearance: none;
+      -webkit-touch-callout: none;
+    }
+
+    .btn:active { background: var(--surface1); opacity: 0.97; }
+
+    .btn-cream {
+      background: var(--cream);
+      color: var(--crust);
+      border-color: var(--cream);
+      font-weight: 600;
+    }
+
+    .btn-cream:active { background: #ddd0b8; border-color: #ddd0b8; opacity: 0.97; }
+
+    .btn-ghost {
+      background: none;
+      border: 1px solid var(--surface1);
+    }
+
+    .btn-ghost:active { background: var(--surface0); opacity: 0.97; }
+
+    .btn-sm {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.7rem;
+      min-height: 36px;
+    }
+
+    /* ── FORM INPUTS (16px MINIMUM FOR iOS) ────────────– */
+    .form-input {
+      background: var(--surface0);
+      border: 1px solid var(--surface1);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 16px;
+      padding: 0.75rem;
+      border-radius: var(--r-sm);
+      width: 100%;
+      transition: border-color 0.15s;
+      min-height: 44px;
+      -webkit-appearance: none;
+      appearance: none;
+      -webkit-touch-callout: none;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--cream);
+    }
+
+    .form-input:active {
+      border-color: var(--cream);
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--overlay1);
+      margin-bottom: 0.35rem;
+    }
+
+    /* ── CASHFLOW STRIP ──────────────────────────────────– */
+    .cf-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--surface0);
+      min-height: 44px;
+    }
+
+    .cf-item:last-child { border-bottom: none; }
+
+    .cf-date {
+      font-size: 0.72rem;
+      color: var(--overlay1);
+      width: 4.5rem;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .cf-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .cf-name { flex: 1; font-size: 0.88rem; }
+
+    .cf-amount {
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .cf-badge {
+      font-size: 0.65rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── ZILCH ITEMS ────────────────────────────────────── */
+    .zilch-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--surface0);
+      transition: opacity 0.3s;
+      min-height: 44px;
+    }
+
+    .zilch-item:last-child { border-bottom: none; }
+    .zilch-item.paid { opacity: 0.35; }
+
+    .zilch-left {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .zilch-date {
+      font-size: 0.75rem;
+      color: var(--overlay1);
+      width: 1.8rem;
+    }
+
+    .zilch-day {
+      font-size: 0.85rem;
+    }
+
+    .zilch-right {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .zilch-amount {
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .mark-btn {
+      font-size: 0.65rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid var(--surface1);
+      background: none;
+      color: var(--subtext0);
+      cursor: pointer;
+      font-family: var(--font);
+      transition: all 0.15s;
+      min-height: 36px;
+      -webkit-appearance: none;
+      appearance: none;
+      -webkit-touch-callout: none;
+    }
+
+    .mark-btn:active { background: var(--cream); color: var(--crust); border-color: var(--cream); opacity: 0.97; }
+    .mark-btn.paid  { background: rgba(232,220,200,.12); color: var(--cream); border-color: transparent; cursor: default; }
+
+    /* ── DEBT MINI CARDS ────────────────────────────────── */
+    .debt-mini {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .util-track {
+      height: 4px;
+      border-radius: 999px;
+      background: var(--surface1);
+      overflow: hidden;
+    }
+
+    .util-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    /* ── SECTION HEADER ────────────────────────────────── */
+    .sec-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.65rem;
+    }
+
+    .sec-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--overlay1);
+      font-weight: 500;
+    }
+
+    /* ── MOTIVATION BANNER ─────────────────────────────── */
+    .motive-banner {
+      background: var(--mantle);
+      border: 1px solid var(--surface0);
+      border-radius: var(--r);
+      padding: 1.1rem 1.4rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      -webkit-touch-callout: none;
+    }
+
+    .motive-icon {
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+      opacity: 0.7;
+    }
+
+    .motive-text {
+      font-style: italic;
+      color: var(--subtext1);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* ── MODAL (BOTTOM SHEET STYLE) ────────────────────– */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(24,25,38,.88);
+      z-index: 500;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      -webkit-touch-callout: none;
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: var(--mantle);
+      border: 1px solid var(--surface1);
+      border-radius: 24px 24px 0 0;
+      padding: 1.75rem;
+      max-width: 100%;
+      width: 100%;
+      animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      max-height: 85vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
+
+    /* ── TOAST ───────────────────────────────────────────– */
+    .toast {
+      position: fixed;
+      bottom: calc(80px + env(safe-area-inset-bottom) + 1rem);
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--surface1);
+      color: var(--text);
+      border: 1px solid var(--surface2);
+      padding: 0.6rem 1.4rem;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      transition: transform 0.3s ease;
+      z-index: 600;
+      white-space: nowrap;
+      -webkit-touch-callout: none;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── PLACEHOLDER PAGES ────────────────────────────── */
+    .placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      gap: 0.75rem;
+      text-align: center;
+    }
+
+    /* ── DIVIDER ──────────────────────────────────────── */
+    .div { height: 1px; background: var(--surface0); margin: 1.25rem 0; }
+
+    /* ── ANIMATIONS ───────────────────────────────────– */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+
+    .fade-1 { animation: fadeUp 0.35s ease both; }
+    .fade-2 { animation: fadeUp 0.35s 0.08s ease both; }
+    .fade-3 { animation: fadeUp 0.35s 0.16s ease both; }
+    .fade-4 { animation: fadeUp 0.35s 0.24s ease both; }
+    .fade-5 { animation: fadeUp 0.35s 0.32s ease both; }
+
+    /* ── SETTINGS PAGE ───────────────────────────────── */
+    .settings-section {
+      margin-bottom: 2rem;
+    }
+
+    .settings-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--surface0);
+      min-height: 44px;
+    }
+
+    .settings-row:last-child { border-bottom: none; }
+
+    .settings-block {
+      background: var(--mantle);
+      border: 1px solid var(--surface0);
+      border-radius: var(--r);
+      overflow: hidden;
+      margin-bottom: 0.65rem;
+    }
+
+    .settings-block-header {
+      padding: 0.85rem 1.25rem;
+      background: var(--mantle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--surface0);
+      min-height: 44px;
+    }
+
+    .settings-block-title {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--overlay1);
+      font-weight: 500;
+    }
+
+    .settings-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--surface0);
+      gap: 1rem;
+      min-height: 44px;
+    }
+
+    .settings-item:last-child { border-bottom: none; }
+
+    .settings-item-left { flex: 1; min-width: 0; }
+
+    .settings-item-name {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .settings-item-sub {
+      font-size: 0.75rem;
+      color: var(--overlay1);
+      margin-top: 0.15rem;
+    }
+
+    .settings-item-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .settings-inline-edit {
+      padding: 0.75rem 1.25rem;
+      background: var(--surface0);
+      border-bottom: 1px solid var(--surface1);
+      display: grid;
+      gap: 0.65rem;
+      animation: fadeUp 0.2s ease both;
+    }
+
+    .settings-inline-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+    }
+
+    /* ── CALENDAR STYLES ──────────────────────────────– */
+    .cal-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+
+    .cal-nav-btn {
+      background: var(--surface0);
+      border: 1px solid var(--surface1);
+      color: var(--subtext1);
+      width: 44px;
+      height: 44px;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      font-size: 1rem;
+      -webkit-appearance: none;
+      appearance: none;
+      -webkit-touch-callout: none;
+    }
+
+    .cal-nav-btn:active:not(:disabled) { background: var(--surface1); color: var(--text); opacity: 0.97; }
+    .cal-nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+    .cal-month-label {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      font-style: italic;
+    }
+
+    .cal-dow-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 0.35rem;
+    }
+
+    .cal-dow {
+      text-align: center;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--overlay0);
+      padding: 0.25rem 0;
+    }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+
+    .cal-day {
+      min-height: 60px;
+      background: var(--mantle);
+      border: 1px solid var(--surface0);
+      border-radius: var(--r-sm);
+      padding: 0.4rem 0.45rem 0.35rem;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      -webkit-touch-callout: none;
+    }
+
+    .cal-day:active { border-color: var(--surface2); background: var(--surface0); opacity: 0.97; }
+    .cal-day.selected { border-color: var(--cream); background: rgba(232,220,200,0.05); }
+    .cal-day.is-today .cal-day-num { color: var(--cream); font-weight: 700; }
+    .cal-day.is-today::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--cream);
+    }
+    .cal-day.empty { background: transparent; border-color: transparent; cursor: default; pointer-events: none; }
+    .cal-day.other-month { opacity: 0.3; }
+
+    .cal-day-num {
+      font-size: 0.78rem;
+      color: var(--subtext0);
+      margin-bottom: 0.3rem;
+      line-height: 1;
+    }
+
+    .cal-dots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px;
+      flex: 1;
+    }
+
+    .cal-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .cal-net {
+      font-size: 0.6rem;
+      font-weight: 600;
+      margin-top: auto;
+      padding-top: 0.2rem;
+    }
+
+    /* ── DEBT PAGE ─────────────────────────────────────– */
+    .debt-card {
+      background: var(--mantle);
+      border: 1px solid var(--surface0);
+      border-radius: var(--r);
+      padding: 1.2rem 1.4rem;
+      transition: border-color 0.2s;
+      -webkit-touch-callout: none;
+    }
+
+    .debt-card.priority-high   { border-left: 3px solid var(--red); }
+    .debt-card.priority-medium { border-left: 3px solid var(--yellow); }
+    .debt-card.priority-low    { border-left: 3px solid var(--overlay0); }
+    .debt-card.priority-managed{ border-left: 3px solid var(--mauve); }
+
+    .debt-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .debt-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .debt-note {
+      font-size: 0.78rem;
+      color: var(--overlay1);
+      font-style: italic;
+      margin-top: 0.15rem;
+    }
+
+    .debt-stats {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .debt-stat { display: flex; flex-direction: column; gap: 0.2rem; }
+    .debt-stat-label { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--overlay1); }
+    .debt-stat-value { font-size: 1.05rem; font-weight: 600; color: var(--text); }
+
+    .debt-util-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .debt-util-bar {
+      flex: 1;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--surface1);
+      overflow: hidden;
+    }
+
+    .debt-util-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.5s ease;
+    }
+
+    .debt-util-label {
+      font-size: 0.72rem;
+      color: var(--overlay1);
+      flex-shrink: 0;
+      width: 2.5rem;
+      text-align: right;
+    }
+
+    .debt-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--surface0);
+    }
+
+    .debt-edit-form {
+      margin-top: 0.85rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--surface0);
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .debt-edit-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+    }
+
+    .debt-payment-log {
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      color: var(--overlay1);
+      font-style: italic;
+    }
+
+    .priority-group-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--overlay0);
+      font-weight: 500;
+      margin: 1.5rem 0 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .priority-group-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--surface0);
+    }
+
+    /* ── LOOKING AHEAD ────────────────────────────────– */
+    .ahead-month {
+      background: var(--mantle);
+      border: 1px solid var(--surface0);
+      border-radius: var(--r);
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .ahead-month-header {
+      padding: 1rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--surface0);
+      min-height: 44px;
+    }
+
+    .ahead-month-name {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .ahead-month-body {
+      padding: 1rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .ahead-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.875rem;
+    }
+
+    .ahead-row-label { color: var(--subtext1); }
+    .ahead-row-val   { font-weight: 600; }
+
+    .ahead-bar-wrap {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--surface0);
+    }
+
+    .ahead-bar-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--overlay1);
+      margin-bottom: 0.35rem;
+    }
+
+    .ahead-bar-track {
+      height: 10px;
+      background: var(--surface0);
+      border-radius: 999px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .ahead-bar-in  { background: var(--cream);  border-radius: 999px 0 0 999px; }
+    .ahead-bar-out { background: var(--red);     opacity: 0.65; }
+
+    .milestone-card {
+      background: var(--surface0);
+      border-radius: var(--r-sm);
+      padding: 0.85rem 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .milestone-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.3rem;
+    }
+
+    .milestone-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .milestone-desc {
+      font-size: 0.8rem;
+      color: var(--subtext1);
+      margin-top: 0.2rem;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* ── DAY DETAIL PANEL ──────────────────────────────– */
+    .day-detail {
+      background: var(--mantle);
+      border: 1px solid var(--surface1);
+      border-radius: var(--r);
+      padding: 1.25rem 1.4rem;
+      margin-top: 1rem;
+      animation: fadeUp 0.25s ease both;
+    }
+
+    .day-detail-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--surface0);
+    }
+
+    .day-event-row {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--surface0);
+      min-height: 44px;
+    }
+
+    .day-event-row:last-child { border-bottom: none; }
+
+    .day-event-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .day-event-name { flex: 1; font-size: 0.875rem; }
+
+    .day-event-amount {
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .day-event-badge {
+      font-size: 0.65rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    /* ── TODAY HIGHLIGHT ──────────────────────────────– */
+    .today-alert {
+      border-left: 3px solid var(--red);
+      padding-left: 0.65rem;
+      margin-left: -0.65rem;
+    }
+    /* ── PIN GATE ── */
+    #pin-gate{position:fixed;inset:0;z-index:99999;background:var(--base);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Lora',serif;gap:18px}
+    #pin-gate.unlocked{display:none}
+    #pin-gate h2{color:var(--text);font-size:1.3rem;font-weight:600;margin:0}
+    #pin-gate p{color:var(--subtext0);font-size:0.85rem;margin:0}
+    #pin-dots{display:flex;gap:14px;margin:12px 0}
+    #pin-dots span{width:14px;height:14px;border-radius:50%;border:2px solid var(--surface2);background:transparent;transition:background .15s}
+    #pin-dots span.filled{background:var(--lavender);border-color:var(--lavender)}
+    #pin-pad{display:grid;grid-template-columns:repeat(3,72px);gap:12px}
+    #pin-pad button{height:72px;border-radius:50%;border:1.5px solid var(--surface1);background:var(--mantle);color:var(--text);font-size:1.4rem;font-family:'Lora',serif;-webkit-tap-highlight-color:transparent;cursor:pointer}
+    #pin-pad button:active{background:var(--surface0)}
+    #pin-error{color:var(--red,#ed8796);font-size:0.8rem;min-height:1.2em;margin:0}
+  </style>
+</head>
+<body>
+
+<div id="pin-gate">
+  <h2>finances ✦</h2>
+  <p>enter pin</p>
+  <div id="pin-dots"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  <p id="pin-error"></p>
+  <div id="pin-pad">
+    <button onclick="pinKey('1')">1</button><button onclick="pinKey('2')">2</button><button onclick="pinKey('3')">3</button>
+    <button onclick="pinKey('4')">4</button><button onclick="pinKey('5')">5</button><button onclick="pinKey('6')">6</button>
+    <button onclick="pinKey('7')">7</button><button onclick="pinKey('8')">8</button><button onclick="pinKey('9')">9</button>
+    <button onclick="pinClear()">C</button><button onclick="pinKey('0')">0</button><button onclick="pinDel()">&larr;</button>
+  </div>
+</div>
+<script>
+(function(){
+  var PIN='435183',entry='',dots=document.querySelectorAll('#pin-dots span'),errEl=document.getElementById('pin-error'),gate=document.getElementById('pin-gate');
+  if(sessionStorage.getItem('hub_pin_ok')==='1'){gate.classList.add('unlocked');return}
+  window.pinKey=function(d){if(entry.length>=6)return;entry+=d;updDots();if(entry.length===6){if(entry===PIN){sessionStorage.setItem('hub_pin_ok','1');gate.classList.add('unlocked')}else{errEl.textContent='wrong pin';entry='';setTimeout(updDots,400)}}};
+  window.pinDel=function(){entry=entry.slice(0,-1);updDots();errEl.textContent=''};
+  window.pinClear=function(){entry='';updDots();errEl.textContent=''};
+  function updDots(){for(var i=0;i<dots.length;i++){dots[i].classList.toggle('filled',i<entry.length)}}
+})();
+</script>
+
+<!-- ── SVG ICON LIBRARY ──────────────────────────────────────── -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden">
+  <defs>
+
+    <!-- MOON (crescent, 32×32 pixel grid, pixel=2) -->
+    <symbol id="icon-moon" viewBox="0 0 32 32">
+      <g shape-rendering="crispEdges" fill="currentColor">
+        <rect x="12" y="2"  width="6"  height="2"/>
+        <rect x="10" y="4"  width="8"  height="2"/>
+        <rect x="8"  y="6"  width="10" height="2"/>
+        <rect x="6"  y="8"  width="10" height="2"/>
+        <rect x="6"  y="10" width="8"  height="2"/>
+        <rect x="6"  y="12" width="6"  height="2"/>
+        <rect x="6"  y="14" width="6"  height="2"/>
+        <rect x="6"  y="16" width="6"  height="2"/>
+        <rect x="6"  y="18" width="8"  height="2"/>
+        <rect x="6"  y="20" width="10" height="2"/>
+        <rect x="8"  y="22" width="10" height="2"/>
+        <rect x="10" y="24" width="8"  height="2"/>
+        <rect x="12" y="26" width="6"  height="2"/>
+      </g>
+    </symbol>
+
+    <!-- STAR (4-pointed, 16×16 pixel grid) -->
+    <symbol id="icon-star" viewBox="0 0 16 16">
+      <g shape-rendering="crispEdges" fill="currentColor">
+        <rect x="7" y="0" width="2" height="3"/>
+        <rect x="7" y="13" width="2" height="3"/>
+        <rect x="0" y="7" width="3" height="2"/>
+        <rect x="13" y="7" width="3" height="2"/>
+        <rect x="5" y="3" width="2" height="2"/>
+        <rect x="9" y="3" width="2" height="2"/>
+        <rect x="3" y="5" width="2" height="2"/>
+        <rect x="11" y="5" width="2" height="2"/>
+        <rect x="5" y="11" width="2" height="2"/>
+        <rect x="9" y="11" width="2" height="2"/>
+        <rect x="3" y="9" width="2" height="2"/>
+        <rect x="11" y="9" width="2" height="2"/>
+        <rect x="5" y="5" width="6" height="6"/>
+      </g>
+    </symbol>
+
+    <!-- CAT FACE (pixel art, 32×32) -->
+    <symbol id="icon-cat" viewBox="0 0 32 32">
+      <g shape-rendering="crispEdges">
+        <rect x="2"  y="0"  width="6" height="8" fill="currentColor"/>
+        <rect x="24" y="0"  width="6" height="8" fill="currentColor"/>
+        <rect x="3"  y="2"  width="3" height="4" fill="#f0c6c6" opacity="0.8"/>
+        <rect x="26" y="2"  width="3" height="4" fill="#f0c6c6" opacity="0.8"/>
+        <rect x="4"  y="6"  width="24" height="22" fill="currentColor"/>
+        <rect x="7"  y="12" width="5" height="5" fill="#1e2030"/>
+        <rect x="20" y="12" width="5" height="5" fill="#1e2030"/>
+        <rect x="8"  y="13" width="2" height="2" fill="white" opacity="0.9"/>
+        <rect x="21" y="13" width="2" height="2" fill="white" opacity="0.9"/>
+        <rect x="14" y="18" width="4" height="3" fill="#f5bde6"/>
+        <rect x="11" y="21" width="3" height="2" fill="#1e2030"/>
+        <rect x="18" y="21" width="3" height="2" fill="#1e2030"/>
+        <rect x="14" y="23" width="4" height="1" fill="#1e2030"/>
+      </g>
+    </symbol>
+
+    <!-- COIN STACK (32×32) -->
+    <symbol id="icon-coin" viewBox="0 0 32 32">
+      <g shape-rendering="crispEdges" fill="currentColor">
+        <rect x="6"  y="2" width="20" height="2"/>
+        <rect x="4"  y="4" width="24" height="6"/>
+        <rect x="6"  y="10" width="20" height="2"/>
+        <rect x="6"  y="14" width="20" height="2"/>
+        <rect x="4"  y="16" width="24" height="6"/>
+        <rect x="6"  y="22" width="20" height="2"/>
+        <rect x="6"  y="24" width="20" height="2"/>
+        <rect x="4"  y="26" width="24" height="4"/>
+      </g>
+    </symbol>
+
+    <!-- HOUSE (32×32) -->
+    <symbol id="icon-house" viewBox="0 0 32 32">
+      <g shape-rendering="crispEdges" fill="currentColor">
+        <rect x="15" y="2"  width="2" height="2"/>
+        <rect x="13" y="4"  width="6" height="2"/>
+        <rect x="11" y="6"  width="10" height="2"/>
+        <rect x="9"  y="8"  width="14" height="2"/>
+        <rect x="7"  y="10" width="18" height="2"/>
+        <rect x="5"  y="12" width="22" height="2"/>
+        <rect x="5"  y="14" width="22" height="17"/>
+        <rect x="12" y="22" width="8"  height="9" fill="#1e2030"/>
+        <rect x="7"  y="16" width="6"  height="6" fill="#1e2030"/>
+        <rect x="19" y="16" width="6"  height="6" fill="#1e2030"/>
+        <rect x="8"  y="17" width="2"  height="2" fill="#8aadf4" opacity="0.6"/>
+        <rect x="20" y="17" width="2"  height="2" fill="#8aadf4" opacity="0.6"/>
+      </g>
+    </symbol>
+
+    <!-- COFFEE CUP (32×32) -->
+    <symbol id="icon-coffee" viewBox="0 0 32 32">
+      <g shape-rendering="crispEdges" fill="currentColor">
+        <rect x="9"  y="2" width="2" height="3" opacity="0.5"/>
+        <rect x="14" y="0" width="2" height="4" opacity="0.4"/>
+        <rect x="19" y="2" width="2" height="3" opacity="0.5"/>
+        <rect x="4"  y="7"  width="20" height="2"/>
+        <rect x="4"  y="9"  width="18" height="15"/>
+        <rect x="4"  y="24" width="18" height="2"/>
+        <rect x="6"  y="26" width="14" height="2"/>
+        <rect x="22" y="11" width="4" height="2"/>
+        <rect x="24" y="13" width="2" height="6"/>
+        <rect x="22" y="19" width="4" height="2"/>
+      </g>
+    </symbol>
+
+  </defs>
+</svg>
+
+<!-- ── HEADER WITH HOME BUTTON ────────────────────────────── -->
+<header>
+  <button class="header-home" onclick="window.location='Hub-Mobile.html'" title="Back to Hub">
+    <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 8.5L8 3l6 5.5"/><path d="M3.5 7.5V13a1 1 0 001 1h2.75V11h1.5v3h2.75a1 1 0 001-1V7.5"/>
+    </svg>
+  </button>
+  <div class="header-brand">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="var(--cream)" stroke-width="1.6" stroke-linecap="round">
+      <path d="M13.5 10.5a6 6 0 1 1-8-8 4.5 4.5 0 0 0 8 8z"/>
+    </svg>
+    finances
+  </div>
+</header>
+
+<!-- ── PAGES ──────────────────────────────────────────────── -->
+<main>
+
+  <div id="page-dashboard" class="page active">
+    <div class="content" id="dashboard-content"></div>
+  </div>
+
+  <div id="page-calendar" class="page">
+    <div class="content" id="calendar-content"></div>
+  </div>
+
+  <div id="page-debts" class="page">
+    <div class="content" id="debts-content"></div>
+  </div>
+
+  <div id="page-ahead" class="page">
+    <div class="content" id="ahead-content"></div>
+  </div>
+
+  <div id="page-settings" class="page">
+    <div class="content" id="settings-content"></div>
+  </div>
+
+</main>
+
+<!-- ── BOTTOM NAVIGATION BAR ─────────────────────────────── -->
+<nav class="bottom-nav">
+  <button class="nav-tab active" data-page="dashboard" onclick="navigate('dashboard')" title="Dashboard">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="1" y="1" width="6" height="6" rx="1.2"/>
+      <rect x="9" y="1" width="6" height="6" rx="1.2"/>
+      <rect x="1" y="9" width="6" height="6" rx="1.2"/>
+      <rect x="9" y="9" width="6" height="6" rx="1.2"/>
+    </svg>
+    <span>Home</span>
+  </button>
+  <button class="nav-tab" data-page="calendar" onclick="navigate('calendar')" title="Calendar">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="1" y="2.5" width="14" height="12" rx="1.5"/>
+      <path d="M1 7h14"/>
+      <path d="M5 1v3M11 1v3"/>
+      <path d="M4.5 10.5h1M7.5 10.5h1M10.5 10.5h1"/>
+    </svg>
+    <span>Calendar</span>
+  </button>
+  <button class="nav-tab" data-page="debts" onclick="navigate('debts')" title="Debts">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="1" y="3.5" width="14" height="9" rx="1.5"/>
+      <path d="M1 7h14"/>
+      <path d="M4 11h3"/>
+    </svg>
+    <span>Debts</span>
+  </button>
+  <button class="nav-tab" data-page="ahead" onclick="navigate('ahead')" title="Ahead">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 8h12"/>
+      <path d="M10 4l4 4-4 4"/>
+      <path d="M2 11.5a5 5 0 0 1 5-5"/>
+    </svg>
+    <span>Ahead</span>
+  </button>
+  <button class="nav-tab" data-page="settings" onclick="navigate('settings')" title="Settings">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+    </svg>
+    <span>Settings</span>
+  </button>
+</nav>
+
+<!-- ── MODALS ──────────────────────────────────────────────– -->
+<div class="modal-overlay" id="impulse-modal">
+  <div class="modal-box" style="text-align:center">
+    <svg width="28" height="28" color="var(--cream)" style="margin-bottom:0.75rem"><use href="#icon-moon"/></svg>
+    <h2 style="font-size:1.2rem;color:var(--cream);margin-bottom:0.6rem">Pause for a moment ✦</h2>
+    <p style="color:var(--subtext1);font-size:0.875rem;line-height:1.65;margin-bottom:1.4rem" id="impulse-text"></p>
+    <div class="grid-2" style="gap:0.75rem">
+      <button class="btn btn-cream" id="impulse-wait-btn">I'll wait ✦</button>
+      <button class="btn btn-ghost" id="impulse-proceed-btn">Add it anyway</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="log-modal">
+  <div class="modal-box">
+    <h2 style="font-size:1.05rem;color:var(--cream);margin-bottom:1.25rem">Log a transaction</h2>
+    <div style="display:grid;gap:0.85rem">
+      <div>
+        <label class="form-label">Description</label>
+        <input type="text" class="form-input" id="log-name" placeholder="What was it?">
+      </div>
+      <div class="grid-2">
+        <div>
+          <label class="form-label">Amount (£)</label>
+          <input type="number" class="form-input" id="log-amount" placeholder="0.00" step="0.01" min="0">
+        </div>
+        <div>
+          <label class="form-label">Type</label>
+          <select class="form-input" id="log-type">
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="form-label">Category</label>
+        <select class="form-input" id="log-category">
+          <option value="food">Food &amp; Drink</option>
+          <option value="shopping">Shopping</option>
+          <option value="transport">Transport</option>
+          <option value="entertainment">Entertainment</option>
+          <option value="health">Health</option>
+          <option value="pet">Pet</option>
+          <option value="subscriptions">Subscriptions</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label">Note (optional)</label>
+        <input type="text" class="form-input" id="log-note" placeholder="Any context?">
+      </div>
+    </div>
+    <div class="grid-2" style="gap:0.75rem;margin-top:1.25rem">
+      <button class="btn btn-cream" onclick="submitLog()">Log it ✦</button>
+      <button class="btn btn-ghost" onclick="closeModal('log-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="balance-modal">
+  <div class="modal-box">
+    <h2 style="font-size:1.05rem;color:var(--cream);margin-bottom:0.5rem">Update balance</h2>
+    <p style="color:var(--subtext1);font-size:0.85rem;margin-bottom:1.25rem">Enter your current account balance.</p>
+    <div>
+      <label class="form-label">Balance (£)</label>
+      <input type="number" class="form-input" id="balance-input" placeholder="0.00" step="0.01">
+    </div>
+    <div class="grid-2" style="gap:0.75rem;margin-top:1.25rem">
+      <button class="btn btn-cream" onclick="saveBalance()">Save ✦</button>
+      <button class="btn btn-ghost" onclick="closeModal('balance-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="security-net-modal">
+  <div class="modal-box" style="text-align:center">
+    <div style="margin-bottom:0.85rem">
+      <svg width="32" height="32" viewBox="0 0 16 16" fill="none" stroke="var(--cream)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.85">
+        <path d="M8 2L3 4v4c0 3 2.5 5 5 6 2.5-1 5-3 5-6V4z"/>
+        <path d="M6 8l1.5 1.5L10 6.5"/>
+      </svg>
+    </div>
+    <h2 style="font-size:1.1rem;color:var(--cream);margin-bottom:0.4rem">Add to your security net</h2>
+    <p style="color:var(--subtext1);font-size:0.82rem;line-height:1.6;margin-bottom:1.25rem" id="snet-modal-sub">Every little helps — this money is yours.</p>
+    <div style="margin-bottom:1.25rem">
+      <label class="form-label" style="text-align:left;display:block">Amount to add (£)</label>
+      <input type="number" class="form-input" id="snet-deposit-input" placeholder="0.00" step="0.01" min="0.01">
+    </div>
+    <div class="grid-2" style="gap:0.75rem">
+      <button class="btn btn-cream" onclick="saveSecurityNetDeposit()">Add it ✦</button>
+      <button class="btn btn-ghost" onclick="closeModal('security-net-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ──────────────────────────────────────────────── -->
+<div class="toast" id="toast"></div>
+
+<!-- ── JAVASCRIPT (COMPLETE FROM ORIGINAL) ────────────────– -->
+<script>
+'use strict';
+
+// ============================================================
+// DATA
+// ============================================================
+
+const INITIAL_DATA = {
+  balance: 1072.00,
+  profile: { name: 'Eliza', currency: '£', impulseThreshold: 30 },
+  income: [
+    { id: 1, name: 'Salary',          amount: 1173.39, dayOfMonth: 8,  frequency: 'monthly',    received: ['2026-04'], note: 'Arrived early via Monzo' },
+    { id: 2, name: 'Bursary / DWP',   amount: 300,     dayOfMonth: 17, frequency: 'every4weeks', received: [], nextDate: '2026-04-17' },
+    { id: 3, name: 'Income Source 3', amount: 400,     dayOfMonth: 3,  frequency: 'monthly',    received: ['2026-04'] },
+  ],
+  fixedExpenses: [
+    // Already paid in April
+    { id: 1,  name: 'Mum',          amount: 212,    dayOfMonth: 1,  category: 'family',        paidMonths: ['2026-04'] },
+    { id: 2,  name: '118118 Loan',   amount: 197.23, dayOfMonth: 1,  category: 'debt',          paidMonths: ['2026-04'] },
+    { id: 3,  name: 'Canva',         amount: 13,     dayOfMonth: 2,  category: 'subscriptions', paidMonths: ['2026-04'] },
+    { id: 4,  name: 'iCloud+',       amount: 2.99,   dayOfMonth: 5,  category: 'subscriptions', paidMonths: ['2026-04'] },
+    { id: 5,  name: 'Netflix',        amount: 5.99,   dayOfMonth: 6,  category: 'subscriptions', paidMonths: ['2026-04'] },
+    { id: 6,  name: 'Claude',         amount: 180,    dayOfMonth: 7,  category: 'subscriptions', paidMonths: ['2026-04'] },
+    // Still to pay in April
+    { id: 7,  name: 'Rent',           amount: 498.33, dayOfMonth: 8,  category: 'housing',       paidMonths: [] },
+    { id: 8,  name: 'Energy',         amount: 137.31, dayOfMonth: 10, category: 'utilities',     paidMonths: [] },
+    { id: 9,  name: 'Nanna',          amount: 202,    dayOfMonth: 15, category: 'family',        paidMonths: [], endsAfter: '2026-05' },
+    { id: 10, name: 'Amazon Prime',   amount: 8.99,   dayOfMonth: 30, category: 'subscriptions', paidMonths: [] },
+  ],
+  zilch: [
+    // April
+    { id: 1,  date: '2026-04-13', amount: 63.29,  paid: false },
+    { id: 2,  date: '2026-04-15', amount: 34.45,  paid: false },
+    { id: 3,  date: '2026-04-20', amount: 16.50,  paid: false },
+    { id: 4,  date: '2026-04-21', amount: 93.23,  paid: false },
+    { id: 5,  date: '2026-04-27', amount: 4.94,   paid: false },
+    { id: 6,  date: '2026-04-29', amount: 115.86, paid: false },
+    // May
+    { id: 7,  date: '2026-05-04', amount: 16.50,  paid: false },
+    { id: 8,  date: '2026-05-07', amount: 43.29,  paid: false },
+    { id: 9,  date: '2026-05-13', amount: 58.36,  paid: false },
+    { id: 10, date: '2026-05-21', amount: 93.23,  paid: false },
+    { id: 11, date: '2026-05-26', amount: 22.14,  paid: false },
+    // June
+    { id: 12, date: '2026-06-07', amount: 43.31,  paid: false },
+    { id: 13, date: '2026-06-13', amount: 58.37,  paid: false },
+    { id: 14, date: '2026-06-21', amount: 93.23,  paid: false },
+  ],
+  debts: [
+    { id: 1, name: '118118 Card',     balance: 1181.56, limit: 1200, apr: 49.9, type: 'credit',   priority: 'high',    note: 'Very high APR' },
+    { id: 2, name: 'Capital One',     balance: 192,     limit: 200,  apr: 34.9, type: 'credit',   priority: 'high',    note: 'Nearly maxed' },
+    { id: 3, name: 'Asda Card',       balance: 396.03,  limit: 400,  apr: 29.9, type: 'credit',   priority: 'high',    note: 'Nearly maxed' },
+    { id: 4, name: 'NatWest OD',      balance: 200.63,  limit: 500,  apr: 19.9, type: 'overdraft', priority: 'medium', note: 'Graduate account' },
+    { id: 5, name: 'Ocean (0% BT)',   balance: 687.53,  limit: 750,  apr: 0,    type: 'credit',   priority: 'low',     note: '0% until 17 Jun 2026', expiry: '2026-06-17' },
+    { id: 6, name: '118118 Loan',     balance: 6705.82, limit: null, apr: 49.9, type: 'loan',     priority: 'managed', note: '£197.23/mo fixed', monthlyPayment: 197.23 },
+  ],
+  transactions: [],
+  securityNet: { balance: 0, goal: 500 },
+  nannaCleared: false,
+};
+
+// ── Supabase Sync Engine ────────────────────────────
+var HubSync = {
+  _u: 'https://wsmrcqerdrsvxwplgvmu.supabase.co',
+  _k: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndzbXJjcWVyZHJzdnh3cGxndm11Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0NzEwNjIsImV4cCI6MjA5MTA0NzA2Mn0.dgCIuuoMnJuWd855LPx-ATwpscFCQFOWeHJ5RpwY3qM',
+  _h: function() { return { 'apikey': this._k, 'Authorization': 'Bearer ' + this._k }; },
+  push: function(key, data) {
+    var now = new Date().toISOString();
+    try { localStorage.setItem(key + '__syncTs', now); } catch(e) {}
+    return fetch(this._u + '/rest/v1/hub_sync?key=eq.' + encodeURIComponent(key), {
+      method: 'PATCH',
+      headers: Object.assign({ 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }, this._h()),
+      body: JSON.stringify({ data: data, updated_at: now })
+    }).catch(function() {});
+  },
+  sync: function(key) {
+    var self = this;
+    return fetch(this._u + '/rest/v1/hub_sync?key=eq.' + encodeURIComponent(key) + '&select=data,updated_at', { headers: this._h() })
+      .then(function(r) { return r.json(); })
+      .then(function(rows) {
+        var remote = rows.length > 0 ? rows[0] : null;
+        var localStr; try { localStr = localStorage.getItem(key); } catch(e) {}
+        var local = null; try { local = JSON.parse(localStr); } catch(e) {}
+        var remoteEmpty = !remote || !remote.data || JSON.stringify(remote.data) === '{}' || JSON.stringify(remote.data) === 'null';
+        if (remoteEmpty) { if (local) self.push(key, local); return local; }
+        var localTs; try { localTs = localStorage.getItem(key + '__syncTs'); } catch(e) {}
+        var remoteTime = new Date(remote.updated_at).getTime();
+        var localTime = localTs ? new Date(localTs).getTime() : 0;
+        if (remoteTime > localTime) {
+          try { localStorage.setItem(key, JSON.stringify(remote.data)); localStorage.setItem(key + '__syncTs', remote.updated_at); } catch(e) {}
+          return remote.data;
+        } else { self.push(key, local); return local; }
+      }).catch(function() { return null; });
+  }
+};
+
+const STORAGE_KEY = 'finances_v2_eliza';
+
+// ============================================================
+// STORE
+// ============================================================
+
+let D = loadData();
+
+function loadData() {
+  try { localStorage.setItem('hub_lastVisit_finance', new Date().toISOString()); HubSync.push('hub_lastVisit_finance', new Date().toISOString()); } catch(e) {}
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return JSON.parse(JSON.stringify(INITIAL_DATA));
+}
+
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(D));
+  HubSync.push(STORAGE_KEY, D);
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+
+let currentPage = 'dashboard';
+
+function navigate(page) {
+  currentPage = page;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.page === page);
+  });
+  const el = document.getElementById('page-' + page);
+  if (el) el.classList.add('active');
+  requestAnimationFrame(() => renderPage(page));
+}
+
+function renderPage(page) {
+  if (page === 'dashboard') renderDashboard();
+  if (page === 'settings')  renderSettings();
+  if (page === 'calendar')  renderCalendar();
+  if (page === 'debts')     renderDebts();
+  if (page === 'ahead')     renderAhead();
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+
+function fmt(n, showSign = false) {
+  const sign = showSign && n > 0 ? '+' : '';
+  return sign + '£' + Math.abs(n).toFixed(2);
+}
+
+function fmtNoSign(n) {
+  return '£' + n.toFixed(2);
+}
+
+function today() {
+  return new Date();
+}
+
+function todayStr() {
+  return isoDate(today());
+}
+
+function isoDate(d) {
+  return d.toISOString().slice(0, 10);
+}
+
+function monthKey(d = today()) {
+  return d.toISOString().slice(0, 7); // 'YYYY-MM'
+}
+
+function isPaidThisMonth(exp) {
+  return (exp.paidMonths || []).includes(monthKey());
+}
+
+function dayName(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+}
+
+function daysUntil(dateStr) {
+  const now = today();
+  now.setHours(0,0,0,0);
+  const target = new Date(dateStr + 'T00:00:00');
+  return Math.round((target - now) / 86400000);
+}
+
+function MOTIVATIONS() {
+  return [
+    "Every payment made is proof you're taking care of yourself.",
+    "You're not behind — you're managing a complex situation with intention.",
+    "Knowing your numbers is an act of self-respect.",
+    "Small, consistent steps add up to something real.",
+    "This month is tough. Next month gets a little lighter.",
+    "You're doing the hard work. That matters more than the numbers.",
+    "Being honest with money is how things start to change.",
+    "You opened this. That's already more than most people do.",
+    "Debt doesn't define you. What you do today does.",
+    "One payment at a time. That's all it takes.",
+  ];
+}
+
+function todayMotivation() {
+  const msgs = MOTIVATIONS();
+  const d = today().getDate() + today().getMonth();
+  return msgs[d % msgs.length];
+}
+
+// ============================================================
+// FINANCE CALCULATIONS
+// ============================================================
+
+function calcFreeMoney() {
+  const mk = monthKey();
+  const now = today();
+  const todayNum = now.getDate();
+  const curYear = now.getFullYear();
+  const curMonth = now.getMonth() + 1; // 1-based
+
+  // Income still to arrive this month
+  let incomeRemaining = 0;
+  D.income.forEach(src => {
+    const received = (src.received || []).includes(mk);
+    if (!received) {
+      // Will it arrive this month?
+      if (src.frequency === 'monthly' && src.dayOfMonth >= todayNum) {
+        incomeRemaining += src.amount;
+      } else if (src.frequency === 'every4weeks' && src.nextDate) {
+        const nd = src.nextDate;
+        if (nd.startsWith(mk)) incomeRemaining += src.amount;
+      }
+    }
+  });
+
+  // Fixed expenses still to pay this month
+  let expensesRemaining = 0;
+  D.fixedExpenses.forEach(exp => {
+    if (!isPaidThisMonth(exp)) {
+      // Is it active this month?
+      if (exp.endsAfter) {
+        if (mk > exp.endsAfter) return; // expired
+      }
+      expensesRemaining += exp.amount;
+    }
+  });
+
+  // Zilch remaining this month
+  let zilchRemaining = 0;
+  D.zilch.forEach(z => {
+    if (!z.paid && z.date.startsWith(mk)) {
+      zilchRemaining += z.amount;
+    }
+  });
+
+  const freeRaw = D.balance + incomeRemaining - expensesRemaining - zilchRemaining;
+  return { freeRaw, incomeRemaining, expensesRemaining, zilchRemaining };
+}
+
+function getUpcoming(days = 12) {
+  const now = today();
+  now.setHours(0,0,0,0);
+  const mk = monthKey();
+  const todayNum = now.getDate();
+  const curYear = now.getFullYear();
+  const curMonth = now.getMonth(); // 0-based
+
+  const items = [];
+
+  // Fixed expenses
+  D.fixedExpenses.forEach(exp => {
+    if (isPaidThisMonth(exp)) return;
+    if (exp.endsAfter && mk > exp.endsAfter) return;
+    const d = new Date(curYear, curMonth, exp.dayOfMonth);
+    if (d >= now) {
+      items.push({
+        date: isoDate(d),
+        day: exp.dayOfMonth,
+        name: exp.name,
+        amount: -exp.amount,
+        type: 'expense',
+        id: 'exp-' + exp.id,
+        expId: exp.id
+      });
+    }
+  });
+
+  // Zilch
+  D.zilch.forEach(z => {
+    if (!z.paid) {
+      const d = new Date(z.date + 'T00:00:00');
+      if (d >= now) {
+        items.push({
+          date: z.date,
+          name: 'Zilch',
+          amount: -z.amount,
+          type: 'zilch',
+          id: 'zilch-' + z.id,
+          zilchId: z.id
+        });
+      }
+    }
+  });
+
+  // Income
+  D.income.forEach(src => {
+    const received = (src.received || []).includes(mk);
+    if (!received) {
+      let d;
+      if (src.frequency === 'monthly') {
+        d = new Date(curYear, curMonth, src.dayOfMonth);
+      } else if (src.frequency === 'every4weeks' && src.nextDate) {
+        d = new Date(src.nextDate + 'T00:00:00');
+      }
+      if (d && d >= now) {
+        items.push({
+          date: isoDate(d),
+          name: src.name,
+          amount: src.amount,
+          type: 'income',
+          id: 'inc-' + src.id
+        });
+      }
+    }
+  });
+
+  // Sort by date, then filter to next N days
+  items.sort((a, b) => a.date.localeCompare(b.date));
+  const cutoff = new Date(now.getTime() + days * 86400000);
+  return items.filter(i => new Date(i.date + 'T00:00:00') <= cutoff);
+}
+
+function getAprilZilch() {
+  const mk = monthKey();
+  return D.zilch.filter(z => z.date.startsWith(mk)).sort((a,b) => a.date.localeCompare(b.date));
+}
+
+function totalDebt() {
+  return D.debts.reduce((s, d) => s + d.balance, 0);
+}
+
+// ============================================================
+// ZILCH CARD RENDERER (three states)
+// ============================================================
+
+function renderZilchCard(aprilZilch, zilchDone, zilchTotal) {
+  const allZilchEver = D.zilch.every(z => z.paid);
+  const allThisMonth = aprilZilch.length > 0 && aprilZilch.every(z => z.paid);
+  const mk = monthKey();
+  const monthName = new Date(mk + '-01T12:00:00').toLocaleDateString('en-GB', { month: 'long' });
+
+  // State 1: All Zilch everywhere is done — card disappears entirely
+  if (allZilchEver) {
+    return ''; // Nothing. It's done. No need to look at it ever again.
+  }
+
+  // State 2: This month's Zilch is all paid, but future months remain
+  if (allThisMonth) {
+    const nextMonthZilch = D.zilch.filter(z => !z.paid && !z.date.startsWith(mk));
+    const nextDate = nextMonthZilch.length > 0 ? nextMonthZilch[0].date : null;
+    const nextAmt = nextMonthZilch.length > 0 ? nextMonthZilch[0].amount : 0;
+    return `
+      <div class="card" style="border-color:rgba(139,213,202,0.4)">
+        <div class="sec-head">
+          <span class="sec-title">Zilch — ${monthName}</span>
+          <span class="chip chip-ok">All done ✦</span>
+        </div>
+        <div class="progress-track" style="margin-bottom:0.85rem">
+          <div class="progress-fill" style="width:100%;background:var(--teal)"></div>
+        </div>
+        <div style="font-size:0.875rem;color:var(--subtext1);font-style:italic;margin-bottom:0.6rem">
+          All ${monthName} Zilch payments are cleared. Well done.
+        </div>
+        ${nextDate ? `
+        <div class="card-inner" style="margin-top:0.5rem">
+          <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--overlay1);margin-bottom:0.35rem">Next payment</div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:0.85rem">${dayName(nextDate)}</span>
+            <span style="font-size:0.9rem;font-weight:600;color:var(--subtext1)">${fmtNoSign(nextAmt)}</span>
+          </div>
+        </div>` : ''}
+        <div style="margin-top:0.75rem;font-size:0.75rem;color:var(--overlay1);font-style:italic">
+          ${nextMonthZilch.length} payment${nextMonthZilch.length !== 1 ? 's' : ''} left until Zilch is fully done ✦
+        </div>
+      </div>`;
+  }
+
+  // State 3: Normal — payments in progress this month
+  return `
+    <div class="card">
+      <div class="sec-head">
+        <span class="sec-title">Zilch — ${monthName}</span>
+        <span style="font-size:0.8rem;color:var(--overlay1)">${fmtNoSign(zilchDone)} of ${fmtNoSign(zilchTotal)}</span>
+      </div>
+      <div class="progress-track" style="margin-bottom:0.85rem">
+        <div class="progress-fill" style="width:${zilchTotal > 0 ? (zilchDone/zilchTotal*100).toFixed(0) : 0}%;background:var(--teal)"></div>
+      </div>
+      ${aprilZilch.map(z => {
+          const du = daysUntil(z.date);
+          const isToday = du === 0;
+          return `
+            <div class="zilch-item ${z.paid ? 'paid' : ''}">
+              <div class="zilch-left">
+                <span style="font-size:0.82rem;color:${z.paid ? 'var(--overlay0)' : isToday ? 'var(--red)' : 'var(--subtext1)'}">
+                  ${new Date(z.date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'short',month:'short',day:'numeric'})}
+                </span>
+              </div>
+              <div class="zilch-right">
+                <span class="zilch-amount" style="color:${z.paid ? 'var(--overlay0)' : 'var(--subtext1)'}">${fmtNoSign(z.amount)}</span>
+                <button class="mark-btn ${z.paid ? 'paid' : ''}"
+                  onclick="${z.paid ? '' : `markZilchPaid(${z.id})`}"
+                  ${z.paid ? 'disabled' : ''}>
+                  ${z.paid ? '✓ paid' : 'mark paid'}
+                </button>
+              </div>
+            </div>`;
+        }).join('')
+      }
+      <div style="margin-top:0.75rem;font-size:0.75rem;color:var(--overlay1);font-style:italic">
+        Zilch clears fully end of June ✦
+      </div>
+    </div>`;
+}
+
+// ============================================================
+// DASHBOARD RENDER
+// ============================================================
+
+function renderDashboard() {
+  const { freeRaw, incomeRemaining, expensesRemaining, zilchRemaining } = calcFreeMoney();
+  const upcoming = getUpcoming(12);
+  const aprilZilch = getAprilZilch();
+  const paidZilch = aprilZilch.filter(z => z.paid);
+  const zilchDone = paidZilch.reduce((s, z) => s + z.amount, 0);
+  const zilchTotal = aprilZilch.reduce((s, z) => s + z.amount, 0);
+
+  const now = today();
+  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const dayOfMonth = now.getDate();
+  const monthProgress = (dayOfMonth / daysInMonth * 100).toFixed(0);
+
+  const isTight = freeRaw < 100;
+  const heroClass = isTight ? 'tight' : '';
+
+  // Debt top 3 (high priority only, for snapshot)
+  const highDebts = D.debts.filter(d => d.priority === 'high').slice(0, 3);
+
+  const todayFmt = now.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+  const html = `
+    <!-- Greeting -->
+    <div class="fade-1" style="margin-bottom:1.5rem">
+      <div style="display:flex;align-items:baseline;gap:0.75rem;flex-wrap:wrap">
+        <h1 style="font-size:1.35rem;font-weight:600;color:var(--text)">Good ${getTimeOfDay()}, Eliza.</h1>
+        <span style="color:var(--overlay1);font-size:0.85rem;font-style:italic">${todayFmt}</span>
+      </div>
+    </div>
+
+    <!-- Hero card -->
+    <div class="card fade-2" style="margin-bottom:1rem">
+      <div class="grid-2" style="align-items:center;gap:1.5rem">
+        <div style="position:relative">
+          <div style="position:absolute;inset:-30px -10px;background:radial-gradient(ellipse at 20% 50%,rgba(232,220,200,0.09) 0%,transparent 70%);pointer-events:none;border-radius:var(--r)"></div>
+          <div class="label" style="margin-bottom:0.5rem">Free to spend this month</div>
+          <div class="amount-hero ${heroClass}" id="hero-free-amount">${fmtNoSign(Math.max(0, freeRaw))}</div>
+          ${isTight
+            ? `<div style="margin-top:0.4rem;font-size:0.8rem;color:var(--yellow);font-style:italic">It's a tight one — every pound counts this month.</div>`
+            : `<div style="margin-top:0.4rem;font-size:0.8rem;color:var(--subtext0)">after all April commitments</div>`
+          }
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.85rem">
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:0.35rem">
+              <span class="label">Balance now</span>
+              <span style="font-size:0.85rem;font-weight:600;color:var(--subtext1)">${fmtNoSign(D.balance)}</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width:${Math.min(100,(D.balance/1500*100)).toFixed(0)}%;background:var(--cream)"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:0.35rem">
+              <span class="label">Month progress</span>
+              <span style="font-size:0.85rem;color:var(--subtext1)">Day ${dayOfMonth} of ${daysInMonth}</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width:${monthProgress}%;background:var(--mauve)"></div>
+            </div>
+          </div>
+          ${incomeRemaining > 0
+            ? `<div style="font-size:0.8rem;color:var(--cream);font-style:italic">✦ ${fmtNoSign(incomeRemaining)} still arriving this month</div>`
+            : `<div style="font-size:0.8rem;color:var(--overlay1);font-style:italic">All income for April received</div>`
+          }
+        </div>
+      </div>
+      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--surface0);display:flex;gap:0.6rem;flex-wrap:wrap;align-items:center">
+        <button class="btn btn-cream btn-sm" onclick="openModal('log-modal')">+ Log transaction</button>
+        <button class="btn btn-sm" onclick="openModal('balance-modal')">Update balance</button>
+      </div>
+    </div>
+
+    <!-- Two column: Upcoming + Zilch tracker -->
+    <div class="grid-2 fade-3" style="margin-bottom:1rem">
+
+      <!-- Upcoming this week -->
+      <div class="card">
+        <div class="sec-head">
+          <span class="sec-title">Next 12 days</span>
+          <span class="chip chip-dim">${upcoming.length} events</span>
+        </div>
+        ${upcoming.length === 0
+          ? `<p style="color:var(--overlay1);font-size:0.85rem;font-style:italic;padding:0.5rem 0">Nothing scheduled — enjoy the calm.</p>`
+          : upcoming.map(item => {
+              const du = daysUntil(item.date);
+              const isToday = du === 0;
+              const isTomorrow = du === 1;
+              const dateLabel = isToday ? 'Today' : isTomorrow ? 'Tomorrow' : dayName(item.date).split(',')[0];
+              const isIncome = item.amount > 0;
+              const dotColor = isIncome ? 'var(--cream)' : (isToday ? 'var(--red)' : du <= 3 ? 'var(--yellow)' : 'var(--overlay0)');
+              const amountColor = isIncome ? 'var(--cream)' : 'var(--subtext1)';
+              const urgent = isToday && !isIncome;
+              return `
+                <div class="cf-item ${urgent ? 'today-alert' : ''}">
+                  <span class="cf-date" style="${isToday ? 'color:var(--red);font-weight:700' : ''}">${dateLabel}</span>
+                  <div class="cf-dot" style="background:${dotColor}"></div>
+                  <span class="cf-name" style="font-size:0.85rem;${isToday && !isIncome ? 'color:var(--text);font-weight:500' : ''}">${item.name}</span>
+                  ${isToday && !isIncome ? `<span class="chip chip-urgent" style="font-size:0.63rem">Due</span>` : ''}
+                  <span class="cf-amount" style="color:${amountColor}">${isIncome ? '+' : '−'}${fmtNoSign(Math.abs(item.amount))}</span>
+                </div>`;
+            }).join('')
+        }
+      </div>
+
+      <!-- April Zilch tracker -->
+      ${renderZilchCard(aprilZilch, zilchDone, zilchTotal)}
+
+    </div>
+
+    <!-- Security net + Next milestone -->
+    <div class="grid-2 fade-4" style="margin-bottom:1rem">
+      ${renderSecurityNetCard()}
+      ${renderNextMilestoneCard()}
+    </div>
+
+    <!-- Debt snapshot (top 3 high-priority) -->
+    <div class="card fade-5" style="margin-bottom:1rem">
+      <div class="sec-head">
+        <span class="sec-title">Debt snapshot — high priority</span>
+        <a onclick="navigate('debts')" style="font-size:0.78rem;color:var(--blue);cursor:pointer;text-decoration:none">View all →</a>
+      </div>
+      <div class="grid-3">
+        ${highDebts.map(d => {
+            const pct = d.limit ? (d.balance / d.limit * 100).toFixed(0) : null;
+            const fillColor = pct >= 95 ? 'var(--red)' : pct >= 80 ? 'var(--yellow)' : 'var(--cream)';
+            return `
+              <div class="card-inner debt-mini">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                  <span style="font-size:0.82rem;color:var(--subtext1);line-height:1.3">${d.name}</span>
+                  ${pct ? `<span class="chip chip-urgent" style="font-size:0.6rem">${pct}%</span>` : ''}
+                </div>
+                <div style="font-size:1.05rem;font-weight:600;color:var(--text)">${fmtNoSign(d.balance)}</div>
+                ${pct ? `
+                <div>
+                  <div class="util-track">
+                    <div class="util-fill" style="width:${pct}%;background:${fillColor}"></div>
+                  </div>
+                  <div style="font-size:0.68rem;color:var(--overlay1);margin-top:0.25rem">of ${fmtNoSign(d.limit)} limit</div>
+                </div>` : ''}
+              </div>`;
+          }).join('')
+        }
+      </div>
+      <div style="margin-top:0.85rem;font-size:0.78rem;color:var(--overlay1);font-style:italic">
+        These three are costing you the most — they're the priority once Zilch and Nanna clear.
+      </div>
+    </div>
+
+    <!-- Motivational banner -->
+    <div class="motive-banner" style="animation:fadeUp 0.35s 0.4s ease both">
+      <div class="motive-icon">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="var(--cream)" stroke-width="1.5" stroke-linecap="round" opacity="0.6">
+          <line x1="8" y1="1" x2="8" y2="3.5"/>
+          <line x1="8" y1="12.5" x2="8" y2="15"/>
+          <line x1="1" y1="8" x2="3.5" y2="8"/>
+          <line x1="12.5" y1="8" x2="15" y2="8"/>
+          <line x1="2.9" y1="2.9" x2="4.7" y2="4.7"/>
+          <line x1="11.3" y1="11.3" x2="13.1" y2="13.1"/>
+          <line x1="13.1" y1="2.9" x2="11.3" y2="4.7"/>
+          <line x1="4.7" y1="11.3" x2="2.9" y2="13.1"/>
+        </svg>
+      </div>
+      <div>
+        <div class="motive-text">${todayMotivation()}</div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('dashboard-content').innerHTML = html;
+
+  // Count-up on hero amount
+  const heroEl = document.getElementById('hero-free-amount');
+  if (heroEl) countUp(heroEl, Math.max(0, freeRaw), 900);
+
+  // Animate progress bars in
+  animateBarsIn();
+}
+
+function getTimeOfDay() {
+  const h = today().getHours();
+  if (h < 12) return 'morning';
+  if (h < 17) return 'afternoon';
+  return 'evening';
+}
+
+// ============================================================
+// SECURITY NET
+// ============================================================
+
+function renderSecurityNetCard() {
+  const snet = D.securityNet || { balance: 0, goal: 500 };
+  const pct  = snet.goal > 0 ? Math.round(snet.balance / snet.goal * 100) : 0;
+  const done = pct >= 100;
+  const empty = snet.balance === 0;
+
+  const barColor = done
+    ? 'linear-gradient(90deg,var(--yellow) 0%,var(--cream) 100%)'
+    : 'linear-gradient(90deg,var(--cream) 0%,var(--yellow) 100%)';
+
+  return `
+    <div class="card" style="background:linear-gradient(150deg,var(--mantle) 0%,rgba(232,220,200,0.05) 100%);border-color:rgba(232,220,200,${done ? '0.5' : '0.2'})">
+      <div class="sec-head" style="margin-bottom:0.9rem">
+        <div style="display:flex;align-items:center;gap:0.45rem">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="var(--cream)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.75">
+            <path d="M8 2L3 4v4c0 3 2.5 5 5 6 2.5-1 5-3 5-6V4z"/>
+          </svg>
+          <span class="sec-title">Security Net</span>
+        </div>
+        <span class="chip chip-dim" style="font-size:0.67rem">${fmtNoSign(snet.goal)} goal</span>
+      </div>
+
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:0.55rem">
+        <div>
+          <div style="font-size:1.9rem;font-weight:700;color:${empty ? 'var(--overlay1)' : 'var(--cream)'};line-height:1;letter-spacing:-0.02em">
+            ${fmtNoSign(snet.balance)}
+          </div>
+          <div style="font-size:0.75rem;color:var(--overlay1);margin-top:0.3rem;font-style:italic">
+            ${done
+              ? 'Goal reached ✦'
+              : empty
+              ? 'Start whenever you\'re ready'
+              : fmtNoSign(snet.goal - snet.balance) + ' left to go'}
+          </div>
+        </div>
+        ${pct > 0 ? `<div style="font-size:${done ? '1rem' : '0.88rem'};font-weight:700;color:var(--cream);opacity:0.65;padding-bottom:0.25rem">${done ? '✦' : pct + '%'}</div>` : ''}
+      </div>
+
+      <div class="progress-track" style="height:5px;margin-bottom:0.9rem;background:var(--surface0)">
+        <div class="progress-fill" style="width:${Math.min(100, pct)}%;background:${barColor};transition:width 0.7s cubic-bezier(.4,0,.2,1)"></div>
+      </div>
+
+      <button class="btn btn-sm btn-cream" onclick="openSecurityNetDeposit()"
+        style="${done ? 'background:rgba(238,212,159,0.2);color:var(--yellow);border-color:rgba(238,212,159,0.3)' : ''}">
+        ${done ? '✦ Add more' : '+ Add to net'}
+      </button>
+    </div>`;
+}
+
+function renderNextMilestoneCard() {
+  const m = computeNextMilestone();
+
+  if (!m) {
+    return `
+      <div class="card" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:160px;gap:0.6rem;opacity:0.7">
+        <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="var(--cream)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.5">
+          <path d="M8 2v4l3 3"/>
+          <circle cx="8" cy="8" r="6"/>
+        </svg>
+        <div style="font-size:0.85rem;color:var(--overlay1);font-style:italic">All milestones cleared ✦</div>
+      </div>`;
+  }
+
+  const daysText = m.days === 0
+    ? 'Today'
+    : m.days === 1
+    ? 'Tomorrow'
+    : m.days < 60
+    ? `${m.days} days away`
+    : m.days < 365
+    ? Math.round(m.days / 7) + ' weeks away'
+    : null;
+
+  return `
+    <div class="card" style="border-color:rgba(${m.borderRgb},0.25);background:linear-gradient(150deg,var(--mantle) 0%,rgba(${m.borderRgb},0.04) 100%)">
+      <div class="sec-head" style="margin-bottom:0.75rem">
+        <span class="sec-title">Next milestone</span>
+        ${daysText ? `<span class="chip chip-dim" style="font-size:0.67rem">${daysText}</span>` : ''}
+      </div>
+
+      <div style="display:flex;align-items:flex-start;gap:0.65rem">
+        <div style="flex-shrink:0;margin-top:0.1rem">
+          ${m.svg}
+        </div>
+        <div>
+          <div style="font-size:0.92rem;font-weight:600;color:var(--text);line-height:1.3;margin-bottom:0.3rem">${m.title}</div>
+          <div style="font-size:0.8rem;color:var(--subtext1);font-style:italic;line-height:1.55">${m.desc}</div>
+        </div>
+      </div>
+
+      ${m.subline ? `
+      <div style="margin-top:0.75rem;padding-top:0.65rem;border-top:1px solid var(--surface0);font-size:0.75rem;color:var(--overlay1);font-style:italic">
+        ${m.subline}
+      </div>` : ''}
+    </div>`;
+}
+
+function computeNextMilestone() {
+  const now = today();
+  now.setHours(0,0,0,0);
+  const candidates = [];
+
+  // 1. Last Nanna payment
+  const nannaExp = D.fixedExpenses.find(e => e.name === 'Nanna');
+  if (nannaExp && nannaExp.endsAfter && !isPaidThisMonthFor(nannaExp, nannaExp.endsAfter)) {
+    const parts = nannaExp.endsAfter.split('-');
+    const lastDay = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, nannaExp.dayOfMonth);
+    if (lastDay >= now) {
+      const days = Math.round((lastDay - now) / 86400000);
+      const nextMonthName = new Date(parseInt(parts[0]), parseInt(parts[1]), 1).toLocaleDateString('en-GB', { month: 'long' });
+      candidates.push({
+        date: lastDay,
+        days,
+        borderRgb: '240,198,198',
+        svg: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--flamingo)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 14s-5-3.5-5-7a5 5 0 0 1 10 0c0 3.5-5 7-5 7z"/>
+        </svg>`,
+        title: 'Last Nanna payment',
+        desc: `${dayName(isoDate(lastDay))} — then ${fmtNoSign(nannaExp.amount)}/month freed up from ${nextMonthName} onwards.`,
+        subline: null,
+      });
+    }
+  }
+
+  // 2. Zilch fully cleared — date of last unpaid payment
+  const unpaidZilch = D.zilch.filter(z => !z.paid);
+  if (unpaidZilch.length > 0) {
+    const lastZilchStr = unpaidZilch.reduce((l, z) => z.date > l ? z.date : l, unpaidZilch[0].date);
+    const lastZilchD = new Date(lastZilchStr + 'T00:00:00');
+    if (lastZilchD >= now) {
+      const days = Math.round((lastZilchD - now) / 86400000);
+      const totalLeft = unpaidZilch.reduce((s, z) => s + z.amount, 0);
+      candidates.push({
+        date: lastZilchD,
+        days,
+        borderRgb: '139,213,202',
+        svg: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 8l2.5 2.5L11 5"/>
+          <circle cx="8" cy="8" r="6"/>
+        </svg>`,
+        title: 'Zilch fully cleared',
+        desc: `Final payment on ${dayName(lastZilchStr)} — that chapter completely closed.`,
+        subline: `${unpaidZilch.length} payment${unpaidZilch.length !== 1 ? 's' : ''} left · ${fmtNoSign(totalLeft)} total`,
+      });
+    }
+  }
+
+  // 3. Ocean 0% expiry
+  const ocean = D.debts.find(d => d.expiry && d.balance > 0);
+  if (ocean && ocean.expiry) {
+    const expiryD = new Date(ocean.expiry + 'T00:00:00');
+    if (expiryD >= now) {
+      const days = Math.round((expiryD - now) / 86400000);
+      candidates.push({
+        date: expiryD,
+        days,
+        borderRgb: '238,212,159',
+        svg: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--yellow)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="8" r="6"/>
+          <path d="M8 5v3.5l2 2"/>
+        </svg>`,
+        title: `${ocean.name} — 0% expires`,
+        desc: `${dayName(ocean.expiry)} — worth having a transfer plan in place before then.`,
+        subline: `${fmtNoSign(ocean.balance)} remaining on this card`,
+      });
+    }
+  }
+
+  if (candidates.length === 0) return null;
+  candidates.sort((a, b) => a.date - b.date);
+  return candidates[0];
+}
+
+// Helper: check if an expense was paid in a specific month key (not necessarily current)
+function isPaidThisMonthFor(exp, mk) {
+  return (exp.paidMonths || []).includes(mk);
+}
+
+function openSecurityNetDeposit() {
+  const snet = D.securityNet || { balance: 0, goal: 500 };
+  const remaining = Math.max(0, snet.goal - snet.balance);
+  const sub = document.getElementById('snet-modal-sub');
+  if (sub) {
+    sub.textContent = remaining > 0
+      ? `${fmtNoSign(remaining)} left to reach your £${snet.goal} goal. Every little helps.`
+      : 'You\'ve hit your goal! Adding more just makes it stronger.';
+  }
+  document.getElementById('snet-deposit-input').value = '';
+  document.getElementById('security-net-modal').classList.add('show');
+  setTimeout(() => document.getElementById('snet-deposit-input').focus(), 100);
+}
+
+function saveSecurityNetDeposit() {
+  const val = parseFloat(document.getElementById('snet-deposit-input').value);
+  if (isNaN(val) || val <= 0) { showToast('Please enter a valid amount'); return; }
+  if (!D.securityNet) D.securityNet = { balance: 0, goal: 500 };
+  D.securityNet.balance = +(D.securityNet.balance + val).toFixed(2);
+  save();
+  closeModal('security-net-modal');
+  const hitGoal = D.securityNet.balance >= D.securityNet.goal;
+  showToast(hitGoal
+    ? `✦ ${fmtNoSign(val)} added — security net goal reached!`
+    : `✦ ${fmtNoSign(val)} added to your security net`);
+  renderPage(currentPage);
+}
+
+function saveSecurityNetGoal() {
+  const val = parseFloat(document.getElementById('s-snet-goal').value);
+  if (isNaN(val) || val < 1) { showToast('Please enter a valid goal'); return; }
+  if (!D.securityNet) D.securityNet = { balance: 0, goal: 500 };
+  D.securityNet.goal = val;
+  settingsEditId = null;
+  save();
+  showToast('Security net goal updated ✦');
+  renderSettings();
+}
+
+// ============================================================
+// SETTINGS
+// ============================================================
+
+let settingsEditId   = null; // 'exp-N' | 'inc-N' | 'profile'
+let settingsAddMode  = null; // 'expense' | 'income'
+
+function renderSettings() {
+  const mk = monthKey();
+  const monthLabel = new Date(mk + '-01T12:00:00').toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+
+  // ── Profile ──────────────────────────────────────────────
+  const profileHtml = `
+    <div class="settings-block fade-1">
+      <div class="settings-block-header">
+        <span class="settings-block-title">Profile</span>
+        <button class="btn btn-sm" onclick="toggleSettingsEdit('profile')">Edit</button>
+      </div>
+      ${settingsEditId === 'profile' ? `
+      <div class="settings-inline-edit">
+        <div class="settings-inline-row">
+          <div>
+            <label class="form-label">Your name</label>
+            <input type="text" class="form-input" id="s-name" value="${D.profile.name || 'Eliza'}">
+          </div>
+          <div>
+            <label class="form-label">Impulse pause threshold (£)</label>
+            <input type="number" class="form-input" id="s-threshold" value="${D.profile.impulseThreshold || 30}" min="5" step="5">
+          </div>
+        </div>
+        <div style="font-size:0.75rem;color:var(--overlay1);font-style:italic">
+          Any unplanned expense above the threshold triggers the pause screen.
+        </div>
+        <div style="display:flex;gap:0.5rem">
+          <button class="btn btn-cream btn-sm" onclick="saveProfile()">Save ✦</button>
+          <button class="btn btn-ghost btn-sm" onclick="toggleSettingsEdit(null)">Cancel</button>
+        </div>
+      </div>` : ''}
+      <div class="settings-item">
+        <div class="settings-item-left">
+          <div class="settings-item-name">${D.profile.name || 'Eliza'}</div>
+          <div class="settings-item-sub">Impulse pause at £${D.profile.impulseThreshold || 30}+</div>
+        </div>
+      </div>
+    </div>`;
+
+  // ── Balance ───────────────────────────────────────────────
+  const balanceHtml = `
+    <div class="settings-block fade-1">
+      <div class="settings-block-header">
+        <span class="settings-block-title">Balance</span>
+        <button class="btn btn-sm" onclick="openModal('balance-modal')">Update</button>
+      </div>
+      <div class="settings-item">
+        <div class="settings-item-left">
+          <div class="settings-item-name">Current balance</div>
+          <div class="settings-item-sub">Your actual bank balance right now</div>
+        </div>
+        <div class="settings-item-right">
+          <span style="font-size:1.1rem;font-weight:700;color:var(--cream)">${fmtNoSign(D.balance)}</span>
+        </div>
+      </div>
+    </div>`;
+
+  // ── Security Net ──────────────────────────────────────────
+  const snet = D.securityNet || { balance: 0, goal: 500 };
+  const snetPct = snet.goal > 0 ? Math.round(snet.balance / snet.goal * 100) : 0;
+  const snetHtml = `
+    <div class="settings-block fade-2">
+      <div class="settings-block-header">
+        <span class="settings-block-title">Security Net</span>
+        <button class="btn btn-sm" onclick="toggleSettingsEdit('snet')">Edit goal</button>
+      </div>
+      ${settingsEditId === 'snet' ? `
+      <div class="settings-inline-edit">
+        <div>
+          <label class="form-label">Goal amount (£)</label>
+          <input type="number" class="form-input" id="s-snet-goal" value="${snet.goal}" step="50" min="1" placeholder="500">
+        </div>
+        <div style="font-size:0.75rem;color:var(--overlay1);font-style:italic">
+          This is your soft savings target — you can change it any time.
+        </div>
+        <div style="display:flex;gap:0.5rem">
+          <button class="btn btn-cream btn-sm" onclick="saveSecurityNetGoal()">Save ✦</button>
+          <button class="btn btn-ghost btn-sm" onclick="toggleSettingsEdit(null)">Cancel</button>
+        </div>
+      </div>` : ''}
+      <div class="settings-item">
+        <div class="settings-item-left">
+          <div class="settings-item-name">Current balance</div>
+          <div class="settings-item-sub">${snetPct}% of ${fmtNoSign(snet.goal)} goal${snet.balance > 0 ? ' · ' + fmtNoSign(Math.max(0, snet.goal - snet.balance)) + ' left' : ''}</div>
+        </div>
+        <div class="settings-item-right">
+          <span style="font-size:1.1rem;font-weight:700;color:var(--cream)">${fmtNoSign(snet.balance)}</span>
+          <button class="btn btn-sm btn-cream" onclick="openSecurityNetDeposit()">+ Add</button>
+        </div>
+      </div>
+    </div>`;
+
+  // ── Income ────────────────────────────────────────────────
+  const incomeItems = D.income.map(src => {
+    const received = (src.received || []).includes(mk);
+    const isEditing = settingsEditId === 'inc-' + src.id;
+    const freqLabel = src.frequency === 'every4weeks' ? 'every 4 weeks' : 'monthly, day ' + src.dayOfMonth;
+    return `
+      ${isEditing ? `
+      <div class="settings-inline-edit">
+        <div class="settings-inline-row">
+          <div>
+            <label class="form-label">Name</label>
+            <input type="text" class="form-input" id="s-inc-name-${src.id}" value="${src.name}">
+          </div>
+          <div>
+            <label class="form-label">Amount (£)</label>
+            <input type="number" class="form-input" id="s-inc-amt-${src.id}" value="${src.amount}" step="0.01" min="0">
+          </div>
+        </div>
+        <div class="settings-inline-row">
+          <div>
+            <label class="form-label">Day of month</label>
+            <input type="number" class="form-input" id="s-inc-day-${src.id}" value="${src.dayOfMonth || ''}" min="1" max="31" placeholder="1–31">
+          </div>
+          <div>
+            <label class="form-label">Frequency</label>
+            <select class="form-input" id="s-inc-freq-${src.id}">
+              <option value="monthly" ${src.frequency==='monthly'?'selected':''}>Monthly</option>
+              <option value="every4weeks" ${src.frequency==='every4weeks'?'selected':''}>Every 4 weeks</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+          <button class="btn btn-cream btn-sm" onclick="saveIncomeEdit(${src.id})">Save ✦</button>
+          <button class="btn btn-ghost btn-sm" onclick="toggleSettingsEdit(null)">Cancel</button>
+          <button class="btn btn-sm" onclick="deleteIncome(${src.id})" style="color:var(--red);margin-left:auto">Remove</button>
+        </div>
+      </div>` : ''}
+      <div class="settings-item">
+        <div class="settings-item-left">
+          <div class="settings-item-name" style="${received ? 'color:var(--overlay1)' : ''}">${src.name} ${received ? '<span style="color:var(--cream)">✓</span>' : ''}</div>
+          <div class="settings-item-sub">${fmtNoSign(src.amount)} · ${freqLabel}</div>
+        </div>
+        <div class="settings-item-right">
+          ${!received
+            ? `<button class="btn btn-sm btn-cream" onclick="markIncomeReceived(${src.id})">Received ✦</button>`
+            : `<span style="font-size:0.75rem;color:var(--cream)">This month</span>`}
+          <button class="btn btn-sm" onclick="toggleSettingsEdit('inc-${src.id}')">Edit</button>
+        </div>
+      </div>`;
+  }).join('');
+
+  const addIncomeForm = settingsAddMode === 'income' ? `
+    <div class="settings-inline-edit">
+      <div class="settings-inline-row">
+        <div>
+          <label class="form-label">Name</label>
+          <input type="text" class="form-input" id="s-new-inc-name" placeholder="e.g. Freelance">
+        </div>
+        <div>
+          <label class="form-label">Amount (£)</label>
+          <input type="number" class="form-input" id="s-new-inc-amt" placeholder="0.00" step="0.01" min="0">
+        </div>
+      </div>
+      <div class="settings-inline-row">
+        <div>
+          <label class="form-label">Day of month</label>
+          <input type="number" class="form-input" id="s-new-inc-day" placeholder="1–31" min="1" max="31">
+        </div>
+        <div>
+          <label class="form-label">Frequency</label>
+          <select class="form-input" id="s-new-inc-freq">
+            <option value="monthly">Monthly</option>
+            <option value="every4weeks">Every 4 weeks</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.5rem">
+        <button class="btn btn-cream btn-sm" onclick="addIncome()">Add ✦</button>
+        <button class="btn btn-ghost btn-sm" onclick="settingsAddMode=null;renderSettings()">Cancel</button>
+      </div>
+    </div>` : '';
+
+  const incomeHtml = `
+    <div class="settings-block fade-2">
+      <div class="settings-block-header">
+        <span class="settings-block-title">Income — ${monthLabel}</span>
+        <button class="btn btn-sm" onclick="settingsAddMode='income';settingsEditId=null;renderSettings()">+ Add</button>
+      </div>
+      ${addIncomeForm}
+      ${incomeItems}
+    </div>`;
+
+  // ── Fixed Expenses ────────────────────────────────────────
+  const expenseItems = D.fixedExpenses.map(exp => {
+    const paid    = isPaidThisMonth(exp);
+    const expired = exp.endsAfter && mk > exp.endsAfter;
+    if (expired) return '';
+    const isEditing = settingsEditId === 'exp-' + exp.id;
+    const endsNote  = exp.endsAfter ? ` · ends ${exp.endsAfter}` : '';
+    return `
+      ${isEditing ? `
+      <div class="settings-inline-edit">
+        <div class="settings-inline-row">
+          <div>
+            <label class="form-label">Name</label>
+            <input type="text" class="form-input" id="s-exp-name-${exp.id}" value="${exp.name}">
+          </div>
+          <div>
+            <label class="form-label">Amount (£)</label>
+            <input type="number" class="form-input" id="s-exp-amt-${exp.id}" value="${exp.amount}" step="0.01" min="0">
+          </div>
+        </div>
+        <div class="settings-inline-row">
+          <div>
+            <label class="form-label">Day of month</label>
+            <input type="number" class="form-input" id="s-exp-day-${exp.id}" value="${exp.dayOfMonth}" min="1" max="31">
+          </div>
+          <div>
+            <label class="form-label">Category</label>
+            <select class="form-input" id="s-exp-cat-${exp.id}">
+              ${['housing','utilities','subscriptions','family','debt','food','shopping','transport','health','pet','other'].map(c =>
+                `<option value="${c}" ${exp.category===c?'selected':''}>${c.charAt(0).toUpperCase()+c.slice(1)}</option>`
+              ).join('')}
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="form-label">Ends after (YYYY-MM, leave blank if ongoing)</label>
+          <input type="text" class="form-input" id="s-exp-ends-${exp.id}" value="${exp.endsAfter || ''}" placeholder="e.g. 2026-05">
+        </div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+          <button class="btn btn-cream btn-sm" onclick="saveExpenseEdit(${exp.id})">Save ✦</button>
+          <button class="btn btn-ghost btn-sm" onclick="toggleSettingsEdit(null)">Cancel</button>
+          <button class="btn btn-sm" onclick="deleteExpense(${exp.id})" style="color:var(--red);margin-left:auto">Remove</button>
+        </div>
+      </div>` : ''}
+      <div class="settings-item">
+        <div class="settings-item-left">
+          <div class="settings-item-name" style="${paid ? 'color:var(--overlay1)' : ''}">${exp.name} ${paid ? '<span style="color:var(--cream)">✓</span>' : ''}</div>
+          <div class="settings-item-sub">Day ${exp.dayOfMonth} · ${fmtNoSign(exp.amount)}${endsNote}</div>
+        </div>
+        <div class="settings-item-right">
+          ${!paid
+            ? `<button class="btn btn-sm btn-cream" onclick="markExpensePaid(${exp.id})">Paid ✦</button>`
+            : `<span style="font-size:0.75rem;color:var(--cream)">This month</span>`}
+          <button class="btn btn-sm" onclick="toggleSettingsEdit('exp-${exp.id}')">Edit</button>
+        </div>
+      </div>`;
+  }).join('');
+
+  const addExpenseForm = settingsAddMode === 'expense' ? `
+    <div class="settings-inline-edit">
+      <div class="settings-inline-row">
+        <div>
+          <label class="form-label">Name</label>
+          <input type="text" class="form-input" id="s-new-exp-name" placeholder="e.g. Gym">
+        </div>
+        <div>
+          <label class="form-label">Amount (£)</label>
+          <input type="number" class="form-input" id="s-new-exp-amt" placeholder="0.00" step="0.01" min="0">
+        </div>
+      </div>
+      <div class="settings-inline-row">
+        <div>
+          <label class="form-label">Day of month</label>
+          <input type="number" class="form-input" id="s-new-exp-day" placeholder="1–31" min="1" max="31">
+        </div>
+        <div>
+          <label class="form-label">Category</label>
+          <select class="form-input" id="s-new-exp-cat">
+            ${['housing','utilities','subscriptions','family','debt','food','shopping','transport','health','pet','other'].map(c =>
+              `<option value="${c}">${c.charAt(0).toUpperCase()+c.slice(1)}</option>`
+            ).join('')}
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="form-label">Ends after (YYYY-MM, optional)</label>
+        <input type="text" class="form-input" id="s-new-exp-ends" placeholder="e.g. 2026-05">
+      </div>
+      <div style="display:flex;gap:0.5rem">
+        <button class="btn btn-cream btn-sm" onclick="addExpense()">Add ✦</button>
+        <button class="btn btn-ghost btn-sm" onclick="settingsAddMode=null;renderSettings()">Cancel</button>
+      </div>
+    </div>` : '';
+
+  const expensesHtml = `
+    <div class="settings-block fade-3">
+      <div class="settings-block-header">
+        <span class="settings-block-title">Fixed expenses — ${monthLabel}</span>
+        <button class="btn btn-sm" onclick="settingsAddMode='expense';settingsEditId=null;renderSettings()">+ Add</button>
+      </div>
+      ${addExpenseForm}
+      ${expenseItems}
+    </div>`;
+
+  // ── Zilch ─────────────────────────────────────────────────
+  const unpaidZilch = D.zilch.filter(z => !z.paid);
+  const paidZilch   = D.zilch.filter(z => z.paid);
+  const zilchHtml = `
+    <div class="settings-block fade-4">
+      <div class="settings-block-header">
+        <span class="settings-block-title">Zilch — all payments</span>
+        <span style="font-size:0.78rem;color:var(--overlay1)">${paidZilch.length} of ${D.zilch.length} paid</span>
+      </div>
+      ${unpaidZilch.length === 0
+        ? `<div class="settings-item"><div class="settings-item-left"><div style="font-size:0.875rem;color:var(--teal);font-style:italic">All Zilch payments cleared ✦</div></div></div>`
+        : unpaidZilch.map(z => `
+          <div class="settings-item">
+            <div class="settings-item-left">
+              <div class="settings-item-name">${dayName(z.date)}</div>
+              <div class="settings-item-sub">${fmtNoSign(z.amount)}</div>
+            </div>
+            <button class="btn btn-sm" onclick="markZilchPaid(${z.id})">Mark paid</button>
+          </div>`).join('')
+      }
+      ${paidZilch.length > 0 ? `
+        <div style="padding:0.6rem 1.25rem;border-top:1px solid var(--surface0)">
+          <div style="font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--overlay0);margin-bottom:0.4rem">Paid</div>
+          ${paidZilch.map(z => `
+            <div style="display:flex;justify-content:space-between;padding:0.3rem 0;font-size:0.8rem;color:var(--overlay1)">
+              <span>${dayName(z.date)}</span>
+              <span>${fmtNoSign(z.amount)} ✓</span>
+            </div>`).join('')}
+        </div>` : ''}
+    </div>`;
+
+  // ── Data ──────────────────────────────────────────────────
+  const dataHtml = `
+    <div class="settings-block fade-5">
+      <div class="settings-block-header">
+        <span class="settings-block-title">Data</span>
+      </div>
+      <div class="settings-item">
+        <div class="settings-item-left">
+          <div class="settings-item-name">Reset all data</div>
+          <div class="settings-item-sub">Restores everything to the original pre-loaded values</div>
+        </div>
+        <button class="btn btn-sm" onclick="resetData()" style="color:var(--red)">Reset</button>
+      </div>
+    </div>`;
+
+  document.getElementById('settings-content').innerHTML = `
+    <div>
+      <div style="margin-bottom:1.5rem">
+        <h1 style="font-size:1.3rem;font-weight:600">Settings</h1>
+        <p style="color:var(--overlay1);font-size:0.85rem;margin-top:0.25rem;font-style:italic">Manage your data ✦</p>
+      </div>
+      ${profileHtml}
+      ${balanceHtml}
+      ${snetHtml}
+      ${incomeHtml}
+      ${expensesHtml}
+      ${zilchHtml}
+      ${dataHtml}
+    </div>`;
+}
+
+function toggleSettingsEdit(id) {
+  settingsEditId  = settingsEditId === id ? null : id;
+  settingsAddMode = null;
+  renderSettings();
+  if (settingsEditId) {
+    setTimeout(() => {
+      const el = document.querySelector('.settings-inline-edit');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 50);
+  }
+}
+
+function saveProfile() {
+  const name      = document.getElementById('s-name').value.trim();
+  const threshold = parseFloat(document.getElementById('s-threshold').value);
+  if (!name) { showToast('Please enter a name'); return; }
+  D.profile.name = name;
+  D.profile.impulseThreshold = isNaN(threshold) ? 30 : threshold;
+  settingsEditId = null;
+  save();
+  showToast('Profile saved ✦');
+  renderSettings();
+}
+
+function saveExpenseEdit(id) {
+  const exp = D.fixedExpenses.find(e => e.id === id);
+  if (!exp) return;
+  exp.name       = document.getElementById(`s-exp-name-${id}`).value.trim() || exp.name;
+  exp.amount     = parseFloat(document.getElementById(`s-exp-amt-${id}`).value) || exp.amount;
+  exp.dayOfMonth = parseInt(document.getElementById(`s-exp-day-${id}`).value)  || exp.dayOfMonth;
+  exp.category   = document.getElementById(`s-exp-cat-${id}`).value;
+  const ends     = document.getElementById(`s-exp-ends-${id}`).value.trim();
+  exp.endsAfter  = ends || undefined;
+  settingsEditId = null;
+  save();
+  showToast(`${exp.name} updated ✦`);
+  renderSettings();
+}
+
+function deleteExpense(id) {
+  const exp = D.fixedExpenses.find(e => e.id === id);
+  if (!exp) return;
+  if (!confirm(`Remove "${exp.name}" from fixed expenses?`)) return;
+  D.fixedExpenses = D.fixedExpenses.filter(e => e.id !== id);
+  settingsEditId = null;
+  save();
+  showToast(`${exp.name} removed`);
+  renderSettings();
+}
+
+function addExpense() {
+  const name = document.getElementById('s-new-exp-name').value.trim();
+  const amt  = parseFloat(document.getElementById('s-new-exp-amt').value);
+  const day  = parseInt(document.getElementById('s-new-exp-day').value);
+  const cat  = document.getElementById('s-new-exp-cat').value;
+  const ends = document.getElementById('s-new-exp-ends').value.trim();
+  if (!name)          { showToast('Please add a name'); return; }
+  if (isNaN(amt))     { showToast('Please add an amount'); return; }
+  if (isNaN(day))     { showToast('Please add a day of month'); return; }
+  const newId = Math.max(0, ...D.fixedExpenses.map(e => e.id)) + 1;
+  D.fixedExpenses.push({ id: newId, name, amount: amt, dayOfMonth: day, category: cat, paidMonths: [], endsAfter: ends || undefined });
+  D.fixedExpenses.sort((a, b) => a.dayOfMonth - b.dayOfMonth);
+  settingsAddMode = null;
+  save();
+  showToast(`${name} added ✦`);
+  renderSettings();
+}
+
+function saveIncomeEdit(id) {
+  const src = D.income.find(s => s.id === id);
+  if (!src) return;
+  src.name      = document.getElementById(`s-inc-name-${id}`).value.trim() || src.name;
+  src.amount    = parseFloat(document.getElementById(`s-inc-amt-${id}`).value) || src.amount;
+  src.dayOfMonth= parseInt(document.getElementById(`s-inc-day-${id}`).value) || src.dayOfMonth;
+  src.frequency = document.getElementById(`s-inc-freq-${id}`).value;
+  settingsEditId = null;
+  save();
+  showToast(`${src.name} updated ✦`);
+  renderSettings();
+}
+
+function deleteIncome(id) {
+  const src = D.income.find(s => s.id === id);
+  if (!src) return;
+  if (!confirm(`Remove "${src.name}" from income?`)) return;
+  D.income = D.income.filter(s => s.id !== id);
+  settingsEditId = null;
+  save();
+  showToast(`${src.name} removed`);
+  renderSettings();
+}
+
+function addIncome() {
+  const name = document.getElementById('s-new-inc-name').value.trim();
+  const amt  = parseFloat(document.getElementById('s-new-inc-amt').value);
+  const day  = parseInt(document.getElementById('s-new-inc-day').value);
+  const freq = document.getElementById('s-new-inc-freq').value;
+  if (!name)      { showToast('Please add a name'); return; }
+  if (isNaN(amt)) { showToast('Please add an amount'); return; }
+  const newId = Math.max(0, ...D.income.map(s => s.id)) + 1;
+  D.income.push({ id: newId, name, amount: amt, dayOfMonth: day || 1, frequency: freq, received: [] });
+  settingsAddMode = null;
+  save();
+  showToast(`${name} added ✦`);
+  renderSettings();
+}
+
+// ============================================================
+// ACTIONS
+// ============================================================
+
+function markZilchPaid(id) {
+  const z = D.zilch.find(x => x.id === id);
+  if (!z || z.paid) return;
+  z.paid = true;
+  save();
+  showToast('Zilch payment marked as paid ✦');
+  renderPage(currentPage);
+  checkMilestones();
+}
+
+function markExpensePaid(id) {
+  const exp = D.fixedExpenses.find(x => x.id === id);
+  if (!exp) return;
+  if (!exp.paidMonths) exp.paidMonths = [];
+  const mk = monthKey();
+  if (!exp.paidMonths.includes(mk)) {
+    exp.paidMonths.push(mk);
+  }
+  save();
+  showToast(`${exp.name} marked as paid ✦`);
+  renderPage(currentPage);
+}
+
+function markIncomeReceived(id) {
+  const src = D.income.find(x => x.id === id);
+  if (!src) return;
+  if (!src.received) src.received = [];
+  const mk = monthKey();
+  if (!src.received.includes(mk)) {
+    src.received.push(mk);
+  }
+  save();
+  showToast(`${src.name} marked as received ✦`);
+  renderPage(currentPage);
+}
+
+function saveBalance() {
+  const val = parseFloat(document.getElementById('balance-input').value);
+  if (isNaN(val)) { showToast('Please enter a valid amount'); return; }
+  D.balance = val;
+  save();
+  closeModal('balance-modal');
+  showToast('Balance updated ✦');
+  renderPage(currentPage);
+}
+
+function resetData() {
+  if (!confirm('Reset all data to the original pre-loaded values?')) return;
+  D = JSON.parse(JSON.stringify(INITIAL_DATA));
+  save();
+  showToast('Data reset ✦');
+  renderPage(currentPage);
+}
+
+// ============================================================
+// LOG TRANSACTION
+// ============================================================
+
+let _pendingLog = null;
+
+function openLogModal() {
+  document.getElementById('log-name').value = '';
+  document.getElementById('log-amount').value = '';
+  document.getElementById('log-type').value = 'expense';
+  document.getElementById('log-category').value = 'other';
+  document.getElementById('log-note').value = '';
+  openModal('log-modal');
+}
+
+function submitLog() {
+  const name   = document.getElementById('log-name').value.trim();
+  const amount = parseFloat(document.getElementById('log-amount').value);
+  const type   = document.getElementById('log-type').value;
+  const cat    = document.getElementById('log-category').value;
+  const note   = document.getElementById('log-note').value.trim();
+
+  if (!name)           { showToast('Please add a description'); return; }
+  if (isNaN(amount) || amount <= 0) { showToast('Please enter a valid amount'); return; }
+
+  // Impulse spending check
+  const threshold = D.profile.impulseThreshold || 30;
+  if (type === 'expense' && amount >= threshold) {
+    closeModal('log-modal');
+    _pendingLog = { name, amount, type, cat, note };
+    showImpulsePause(amount);
+    return;
+  }
+
+  commitLog({ name, amount, type, cat, note });
+}
+
+function showImpulsePause(amount) {
+  const { freeRaw } = calcFreeMoney();
+  const after = Math.max(0, freeRaw - amount);
+  document.getElementById('impulse-text').innerHTML =
+    `You have <strong style="color:var(--cream)">${fmtNoSign(Math.max(0, freeRaw))}</strong> free to spend this month.<br>
+     This purchase would leave you with <strong style="color:${after < 50 ? 'var(--red)' : 'var(--yellow)'}">${fmtNoSign(after)}</strong>.<br><br>
+     Is this something you need right now, or can it wait?`;
+  openModal('impulse-modal');
+}
+
+document.getElementById('impulse-wait-btn').onclick = function() {
+  closeModal('impulse-modal');
+  _pendingLog = null;
+  showToast('Good call — that money stays safe ✦');
+};
+
+document.getElementById('impulse-proceed-btn').onclick = function() {
+  closeModal('impulse-modal');
+  if (_pendingLog) {
+    commitLog(_pendingLog);
+    _pendingLog = null;
+  }
+};
+
+function commitLog({ name, amount, type, cat, note }) {
+  const tx = {
+    id: Date.now(),
+    date: _logDate || todayStr(),
+    name,
+    amount: type === 'income' ? amount : -amount,
+    category: cat,
+    note,
+    type
+  };
+  D.transactions.push(tx);
+  if (type === 'expense') {
+    D.balance = Math.max(0, D.balance - amount);
+  } else {
+    D.balance += amount;
+  }
+  save();
+  _logDate = null;
+  closeModal('log-modal');
+  showToast(type === 'income' ? `+${fmtNoSign(amount)} logged ✦` : `−${fmtNoSign(amount)} logged`);
+  renderPage(currentPage);
+}
+
+// ============================================================
+// MILESTONES
+// ============================================================
+
+function checkMilestones() {
+  const mk = monthKey();
+
+  // Zilch April all paid?
+  const aprilZilch = D.zilch.filter(z => z.date.startsWith(mk));
+  if (aprilZilch.length > 0 && aprilZilch.every(z => z.paid)) {
+    setTimeout(() => showMilestone('April Zilch is fully cleared ✦', 'You did it — every Zilch payment this month is done!'), 500);
+  }
+
+  // All Zilch ever paid?
+  if (D.zilch.every(z => z.paid)) {
+    setTimeout(() => showMilestone('Zilch is completely finished ✦', 'Every single Zilch payment is done. That chapter is closed.'), 800);
+  }
+}
+
+function showMilestone(title, message) {
+  showToast(`✦ ${title} — ${message}`);
+}
+
+// ============================================================
+// MODAL HELPERS
+// ============================================================
+
+function openModal(id) {
+  document.getElementById(id).classList.add('show');
+  if (id === 'log-modal') openLogModal();
+  if (id === 'balance-modal') {
+    document.getElementById('balance-input').value = D.balance.toFixed(2);
+  }
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+
+// Close modal on backdrop click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('show');
+  });
+});
+
+// ============================================================
+// ANIMATIONS
+// ============================================================
+
+function fmtSplitHero(n) {
+  const parts = Math.abs(n).toFixed(2).split('.');
+  return `£${parts[0]}<span style="font-size:0.52em;letter-spacing:0;vertical-align:0.18em;font-weight:700;opacity:0.75">.${parts[1]}</span>`;
+}
+
+function countUp(el, target, duration = 900) {
+  const start = performance.now();
+  function tick(now) {
+    const elapsed = Math.min(now - start, duration);
+    const ease = 1 - Math.pow(1 - elapsed / duration, 3);
+    const current = target * ease;
+    if (elapsed < duration) {
+      el.textContent = '£' + current.toFixed(2);
+      requestAnimationFrame(tick);
+    } else {
+      el.innerHTML = fmtSplitHero(target);
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
+function animateBarsIn() {
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.progress-fill').forEach(el => {
+      const target = el.style.width;
+      if (!target || target === '0%' || target === '0') return;
+      el.style.transition = 'none';
+      el.style.width = '0';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          el.style.transition = '';
+          el.style.width = target;
+        });
+      });
+    });
+  });
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+
+let _toastTimer = null;
+
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+}
+
+// ============================================================
+// LOOKING AHEAD
+// ============================================================
+
+function projectMonth(year, month) {
+  // Returns { income, committed, zilch, free, label, milestones[] }
+  const mk    = `${year}-${String(month).padStart(2,'0')}`;
+  const label = new Date(year, month - 1, 1).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+  const milestones = [];
+
+  // Income
+  let income = 0;
+  D.income.forEach(src => {
+    if (src.frequency === 'monthly') {
+      income += src.amount;
+    } else if (src.frequency === 'every4weeks') {
+      // Count how many 4-week dates fall in this month
+      const hits = EVERY4WEEKS_DATES.filter(d => d.startsWith(mk));
+      income += hits.length * src.amount;
+    }
+  });
+
+  // Fixed committed (not counting one-offs that end)
+  let committed = 0;
+  D.fixedExpenses.forEach(exp => {
+    if (exp.endsAfter && mk > exp.endsAfter) return;
+    committed += exp.amount;
+  });
+
+  // Check if Nanna ends this month or next
+  const nannaExp = D.fixedExpenses.find(e => e.name === 'Nanna');
+  if (nannaExp && nannaExp.endsAfter === mk) {
+    milestones.push({
+      color: 'var(--flamingo)',
+      title: 'Last Nanna payment ✦',
+      desc: `${fmtNoSign(nannaExp.amount)}/month freed up from next month onwards.`,
+    });
+  }
+
+  // Zilch this month
+  let zilch = 0;
+  D.zilch.forEach(z => {
+    if (z.date.startsWith(mk)) zilch += z.amount;
+  });
+
+  // Check if Zilch ends after this month
+  const futureZilch = D.zilch.filter(z => z.date > mk + '-31');
+  const thisMonthZilch = D.zilch.filter(z => z.date.startsWith(mk));
+  const nextMonthZilch = D.zilch.filter(z => {
+    const nm = nextMonthKey(year, month);
+    return z.date.startsWith(nm);
+  });
+  if (thisMonthZilch.length > 0 && nextMonthZilch.length === 0) {
+    milestones.push({
+      color: 'var(--teal)',
+      title: 'Zilch fully paid off ✦',
+      desc: `${fmtNoSign(zilch)} freed up — that chapter is closed.`,
+    });
+  }
+
+  const free = income - committed - zilch;
+  return { income, committed, zilch, free, label, milestones, mk };
+}
+
+function nextMonthKey(year, month) {
+  let m = month + 1, y = year;
+  if (m > 12) { m = 1; y++; }
+  return `${y}-${String(m).padStart(2,'0')}`;
+}
+
+function renderAhead() {
+  // Always show current month + 5 months ahead (rolling window)
+  const now = today();
+  const months = Array.from({ length: 6 }, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+    return { year: d.getFullYear(), month: d.getMonth() + 1 };
+  });
+
+  const projections = months.map(m => projectMonth(m.year, m.month));
+  const currentMk   = monthKey();
+
+  // Collect all milestones across months
+  const allMilestones = projections.flatMap(p =>
+    p.milestones.map(m => ({ ...m, month: p.label }))
+  );
+
+  // Month cards
+  const monthCards = projections.map((p, i) => {
+    const isPast    = p.mk < currentMk;
+    const isCurrent = p.mk === currentMk;
+    const maxBar    = Math.max(...projections.map(x => x.income), 1);
+    const inPct     = Math.min(100, (p.income / maxBar * 100)).toFixed(0);
+    const outPct    = Math.min(100, ((p.committed + p.zilch) / maxBar * 100)).toFixed(0);
+    const freeColor = p.free >= 200 ? 'var(--cream)' : p.free >= 0 ? 'var(--yellow)' : 'var(--red)';
+    const surplusLabel = p.free >= 0 ? 'Free to spend' : 'Shortfall';
+
+    return `
+      <div class="ahead-month fade-${Math.min(i+1,5)}" style="opacity:${isPast ? '0.55' : '1'}">
+        <div class="ahead-month-header">
+          <div style="display:flex;align-items:center;gap:0.6rem">
+            <span class="ahead-month-name" style="${isCurrent ? 'color:var(--cream)' : ''}">${p.label}</span>
+            ${isCurrent ? `<span class="chip chip-ok" style="font-size:0.65rem">Current</span>` : ''}
+            ${isPast    ? `<span class="chip chip-dim" style="font-size:0.65rem">Past</span>` : ''}
+          </div>
+          <span style="font-size:1rem;font-weight:700;color:${freeColor}">${p.free >= 0 ? '+' : ''}${fmtNoSign(Math.abs(p.free))}</span>
+        </div>
+        <div class="ahead-month-body">
+          <div class="ahead-row">
+            <span class="ahead-row-label">Income</span>
+            <span class="ahead-row-val" style="color:var(--cream)">+${fmtNoSign(p.income)}</span>
+          </div>
+          <div class="ahead-row">
+            <span class="ahead-row-label">Fixed expenses</span>
+            <span class="ahead-row-val" style="color:var(--subtext1)">−${fmtNoSign(p.committed)}</span>
+          </div>
+          ${p.zilch > 0 ? `
+          <div class="ahead-row">
+            <span class="ahead-row-label">Zilch</span>
+            <span class="ahead-row-val" style="color:var(--teal)">−${fmtNoSign(p.zilch)}</span>
+          </div>` : ''}
+          <div class="ahead-bar-wrap">
+            <div class="ahead-bar-labels">
+              <span>${surplusLabel}</span>
+              <span style="color:${freeColor};font-weight:600">${fmtNoSign(Math.abs(p.free))}</span>
+            </div>
+            <div class="ahead-bar-track">
+              <div class="ahead-bar-in"  style="width:${inPct}%"></div>
+              <div class="ahead-bar-out" style="width:${Math.max(0, outPct - inPct)}%"></div>
+            </div>
+          </div>
+          ${p.milestones.length > 0 ? p.milestones.map(m => `
+          <div style="margin-top:0.25rem;display:flex;align-items:flex-start;gap:0.6rem;padding:0.6rem 0.75rem;background:rgba(139,213,202,0.06);border-radius:var(--r-sm);border:1px solid rgba(139,213,202,0.18)">
+            <div style="width:7px;height:7px;border-radius:50%;background:${m.color};flex-shrink:0;margin-top:0.35rem"></div>
+            <div>
+              <div style="font-size:0.82rem;font-weight:600">${m.title}</div>
+              <div style="font-size:0.77rem;color:var(--subtext1);font-style:italic;margin-top:0.1rem;line-height:1.45">${m.desc}</div>
+            </div>
+          </div>`).join('') : ''}
+        </div>
+      </div>`;
+  }).join('');
+
+  // Summary insight
+  const julyFree  = projections.find(p => p.mk === '2026-07')?.free || 0;
+  const aprilFree = projections.find(p => p.mk === '2026-04')?.free || 0;
+  const improvement = julyFree - aprilFree;
+
+  document.getElementById('ahead-content').innerHTML = `
+    <div class="fade-1">
+      <div style="margin-bottom:1.5rem">
+        <h1 style="font-size:1.3rem;font-weight:600">Looking Ahead</h1>
+        <p style="color:var(--overlay1);font-size:0.85rem;margin-top:0.25rem;font-style:italic;line-height:1.55">
+          April through September — watching things get lighter.
+        </p>
+      </div>
+
+      <!-- Key milestones -->
+      ${allMilestones.length > 0 ? `
+      <div class="card fade-2" style="margin-bottom:1.25rem">
+        <div class="sec-head" style="margin-bottom:0.75rem">
+          <span class="sec-title">Milestones coming up</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.5rem">
+          ${allMilestones.map(m => `
+          <div class="milestone-card">
+            <div class="milestone-dot" style="background:${m.color}"></div>
+            <div>
+              <div class="milestone-title">${m.title}</div>
+              <div style="font-size:0.72rem;color:var(--overlay1);margin-bottom:0.15rem">${m.month}</div>
+              <div class="milestone-desc">${m.desc}</div>
+            </div>
+          </div>`).join('')}
+        </div>
+      </div>` : ''}
+
+      <!-- Improvement callout -->
+      ${improvement > 0 ? `
+      <div class="motive-banner fade-2" style="margin-bottom:1.25rem">
+        <div class="motive-icon">
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="var(--cream)" stroke-width="1.5" stroke-linecap="round" opacity="0.7">
+            <line x1="8" y1="1" x2="8" y2="3.5"/>
+            <line x1="8" y1="12.5" x2="8" y2="15"/>
+            <line x1="1" y1="8" x2="3.5" y2="8"/>
+            <line x1="12.5" y1="8" x2="15" y2="8"/>
+            <line x1="2.9" y1="2.9" x2="4.7" y2="4.7"/>
+            <line x1="11.3" y1="11.3" x2="13.1" y2="13.1"/>
+            <line x1="13.1" y1="2.9" x2="11.3" y2="4.7"/>
+            <line x1="4.7" y1="11.3" x2="2.9" y2="13.1"/>
+          </svg>
+        </div>
+        <div class="motive-text">
+          By July, once Zilch and Nanna are both cleared, you'll have
+          <strong style="color:var(--cream);font-style:normal">${fmtNoSign(improvement)} more per month</strong>
+          to work with than you do right now. That's real breathing room.
+        </div>
+      </div>` : ''}
+
+      <!-- Month projections -->
+      <div style="display:flex;flex-direction:column;gap:0.65rem">
+        ${monthCards}
+      </div>
+
+      <div style="margin-top:1.25rem;font-size:0.78rem;color:var(--overlay1);font-style:italic;line-height:1.6;padding-top:1rem;border-top:1px solid var(--surface0)">
+        Projections use your fixed income and expenses. Months improve as Zilch clears each payment.
+        Actual numbers will differ — log transactions on the Dashboard to keep things accurate.
+      </div>
+    </div>
+  `;
+  animateBarsIn();
+}
+
+// ============================================================
+// DEBTS
+// ============================================================
+
+let debtEditOpen = null; // id of debt whose edit form is open
+
+const PRIORITY_GROUPS = [
+  {
+    key: 'high',
+    label: 'High priority — accruing interest now',
+    dotColor: 'var(--red)',
+    intro: "These are costing you money every month. They're the focus once Zilch and Nanna are cleared.",
+  },
+  {
+    key: 'medium',
+    label: 'Medium priority',
+    dotColor: 'var(--yellow)',
+    intro: null,
+  },
+  {
+    key: 'low',
+    label: 'Low priority — 0% for now',
+    dotColor: 'var(--overlay0)',
+    intro: "0% until 17 June 2026. Worth noting, but your other cards are already costing more.",
+  },
+  {
+    key: 'managed',
+    label: 'Managed — fixed monthly payment',
+    dotColor: 'var(--mauve)',
+    intro: "Fixed payment in place. Just keep paying and it chips away.",
+  },
+];
+
+function renderDebts() {
+  const totalOwed = D.debts.reduce((s, d) => s + d.balance, 0);
+  const highInterestTotal = D.debts
+    .filter(d => d.priority === 'high' || d.priority === 'medium')
+    .reduce((s, d) => s + d.balance, 0);
+
+  let globalDebtIdx = 0;
+
+  // Progress phrase based on total
+  const progressPhrase = "You're managing £" + totalOwed.toFixed(2) + " across all debts. The high-interest ones are the priority — tackle those first and the rest gets easier.";
+
+  let groupsHtml = '';
+  PRIORITY_GROUPS.forEach(group => {
+    const debts = D.debts.filter(d => d.priority === group.key);
+    if (debts.length === 0) return;
+
+    const cardsHtml = debts.map((d, i) => renderDebtCard(d, globalDebtIdx++)).join('');
+    groupsHtml += `
+      <div class="priority-group-label">
+        <div style="width:7px;height:7px;border-radius:50%;background:${group.dotColor};flex-shrink:0"></div>
+        ${group.label}
+      </div>
+      ${group.intro ? `<p style="font-size:0.82rem;color:var(--overlay1);font-style:italic;margin-bottom:0.75rem;line-height:1.55">${group.intro}</p>` : ''}
+      <div style="display:flex;flex-direction:column;gap:0.65rem">${cardsHtml}</div>
+    `;
+  });
+
+  document.getElementById('debts-content').innerHTML = `
+    <div class="fade-1">
+      <!-- Header -->
+      <div style="margin-bottom:1.5rem">
+        <h1 style="font-size:1.3rem;font-weight:600">Debts</h1>
+        <p style="color:var(--overlay1);font-size:0.78rem;margin-top:0.25rem;font-style:italic;line-height:1.5">${progressPhrase}</p>
+      </div>
+
+      <!-- Summary strip -->
+      <div class="card fade-2" style="margin-bottom:0.5rem">
+        <div class="grid-3" style="gap:0.5rem">
+          <div class="card-inner" style="text-align:center">
+            <div class="label" style="margin-bottom:0.35rem">Total owed</div>
+            <div style="font-size:1.3rem;font-weight:700;color:var(--text)">${fmtNoSign(totalOwed)}</div>
+          </div>
+          <div class="card-inner" style="text-align:center">
+            <div class="label" style="margin-bottom:0.35rem">High-interest</div>
+            <div style="font-size:1.3rem;font-weight:700;color:var(--red)">${fmtNoSign(highInterestTotal)}</div>
+          </div>
+          <div class="card-inner" style="text-align:center">
+            <div class="label" style="margin-bottom:0.35rem">0% (Ocean)</div>
+            <div style="font-size:1.3rem;font-weight:700;color:var(--overlay1)">${fmtNoSign(D.debts.find(d=>d.id===5)?.balance || 0)}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Debt groups -->
+      ${groupsHtml}
+    </div>
+  `;
+  animateBarsIn();
+}
+
+function renderDebtCard(d, idx = 0) {
+  const isOpen   = debtEditOpen === d.id;
+  const pct      = d.limit ? (d.balance / d.limit * 100) : null;
+  const fillColor = pct >= 95 ? 'var(--red)' : pct >= 80 ? 'var(--yellow)' : 'var(--cream)';
+  const paidOff  = d.balance <= 0;
+
+  // Last payment log
+  const lastPayment = (d.payments || []).slice(-1)[0];
+  const lastPayStr  = lastPayment
+    ? `Last payment: ${fmtNoSign(lastPayment.amount)} on ${dayName(lastPayment.date)}`
+    : null;
+
+  // Progress language
+  let progressLine = '';
+  if (d.limit) {
+    const freePercent = (100 - pct).toFixed(0);
+    if (pct >= 95) {
+      progressLine = `<span style="color:var(--red);font-size:0.78rem">Nearly maxed — any payment frees up headroom.</span>`;
+    } else if (pct >= 80) {
+      progressLine = `<span style="color:var(--yellow);font-size:0.78rem">${freePercent}% available — keep reducing this.</span>`;
+    } else {
+      progressLine = `<span style="color:var(--cream);font-size:0.78rem">${freePercent}% utilisation free ✦</span>`;
+    }
+  }
+  if (d.type === 'loan') {
+    progressLine = `<span style="color:var(--subtext1);font-size:0.78rem">You've paid off ${fmtNoSign(d.originalBalance ? d.originalBalance - d.balance : 0)} so far. Fixed monthly payment continues.</span>`;
+  }
+
+  // Ocean countdown
+  let oceanCountdown = '';
+  if (d.expiry) {
+    const daysLeft = daysUntil(d.expiry);
+    const urgency  = daysLeft <= 30 ? 'var(--red)' : daysLeft <= 60 ? 'var(--yellow)' : 'var(--overlay1)';
+    oceanCountdown = `<div style="font-size:0.78rem;color:${urgency};margin-top:0.35rem">0% expires in ${daysLeft} days (${dayName(d.expiry)})</div>`;
+  }
+
+  // APR badge
+  const aprBadge = d.apr > 0
+    ? `<span class="chip chip-urgent" style="font-size:0.68rem">${d.apr}% APR</span>`
+    : `<span class="chip chip-dim" style="font-size:0.68rem">0% APR</span>`;
+
+  // Type badge
+  const typeBadge = `<span class="chip chip-dim" style="font-size:0.68rem">${d.type}</span>`;
+
+  const editFormHtml = isOpen ? `
+    <div class="debt-edit-form">
+      <div class="debt-edit-row">
+        <div>
+          <label class="form-label">Current balance (£)</label>
+          <input type="number" class="form-input" id="debt-bal-${d.id}" value="${d.balance.toFixed(2)}" step="0.01" min="0">
+        </div>
+        <div>
+          <label class="form-label">Payment made (£)</label>
+          <input type="number" class="form-input" id="debt-pay-${d.id}" placeholder="0.00" step="0.01" min="0">
+        </div>
+      </div>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+        <button class="btn btn-cream btn-sm" onclick="saveDebtUpdate(${d.id})">Save ✦</button>
+        <button class="btn btn-ghost btn-sm" onclick="cancelDebtEdit()">Cancel</button>
+      </div>
+      <div style="font-size:0.75rem;color:var(--overlay1);font-style:italic">
+        Enter the new balance after your payment — the payment amount is logged for your records.
+      </div>
+    </div>` : '';
+
+  return `
+    <div class="debt-card priority-${d.priority}" id="debt-card-${d.id}" style="animation:fadeUp 0.3s ${idx * 0.065}s ease both">
+      <div class="debt-card-header">
+        <div style="flex:1">
+          <div class="debt-name">${d.name}</div>
+          ${d.note ? `<div class="debt-note">${d.note}</div>` : ''}
+          ${oceanCountdown}
+        </div>
+        <div style="display:flex;gap:0.35rem;flex-wrap:wrap;justify-content:flex-end;align-items:flex-start">
+          ${aprBadge}
+          ${typeBadge}
+        </div>
+      </div>
+
+      <div class="debt-stats">
+        <div class="debt-stat">
+          <span class="debt-stat-label">Balance</span>
+          <span class="debt-stat-value">${fmtNoSign(d.balance)}</span>
+        </div>
+        ${d.limit ? `
+        <div class="debt-stat">
+          <span class="debt-stat-label">Limit</span>
+          <span class="debt-stat-value">${fmtNoSign(d.limit)}</span>
+        </div>` : ''}
+        ${d.monthlyPayment ? `
+        <div class="debt-stat">
+          <span class="debt-stat-label">Monthly</span>
+          <span class="debt-stat-value">${fmtNoSign(d.monthlyPayment)}</span>
+        </div>` : ''}
+        ${d.targetPayment ? `
+        <div class="debt-stat">
+          <span class="debt-stat-label">Target</span>
+          <span class="debt-stat-value">${fmtNoSign(d.targetPayment)}</span>
+        </div>` : ''}
+      </div>
+
+      ${pct !== null ? `
+      <div class="debt-util-row">
+        <div class="debt-util-bar">
+          <div class="debt-util-fill" style="width:${Math.min(100,pct).toFixed(0)}%;background:${fillColor}"></div>
+        </div>
+        <span class="debt-util-label">${pct.toFixed(0)}%</span>
+      </div>` : ''}
+
+      ${progressLine ? `<div style="margin-bottom:0.6rem">${progressLine}</div>` : ''}
+
+      <div class="debt-actions">
+        <button class="btn btn-sm btn-cream" onclick="openDebtEdit(${d.id})">Log payment ✦</button>
+        ${d.targetPayment
+          ? `<button class="btn btn-sm btn-ghost" onclick="openSetTarget(${d.id})">Change target</button>`
+          : `<button class="btn btn-sm btn-ghost" onclick="openSetTarget(${d.id})">Set target payment</button>`}
+        ${lastPayStr ? `<span class="debt-payment-log">${lastPayStr}</span>` : ''}
+      </div>
+
+      ${editFormHtml}
+    </div>`;
+}
+
+function openDebtEdit(id) {
+  debtEditOpen = debtEditOpen === id ? null : id;
+  renderDebts();
+  // Scroll to card
+  setTimeout(() => {
+    const el = document.getElementById('debt-card-' + id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 50);
+}
+
+function cancelDebtEdit() {
+  debtEditOpen = null;
+  renderDebts();
+}
+
+function saveDebtUpdate(id) {
+  const debt = D.debts.find(d => d.id === id);
+  if (!debt) return;
+
+  const newBal = parseFloat(document.getElementById('debt-bal-' + id).value);
+  const payAmt = parseFloat(document.getElementById('debt-pay-' + id).value) || 0;
+
+  if (isNaN(newBal) || newBal < 0) { showToast('Please enter a valid balance'); return; }
+
+  const oldBal = debt.balance;
+  debt.balance = newBal;
+
+  if (payAmt > 0) {
+    if (!debt.payments) debt.payments = [];
+    debt.payments.push({ amount: payAmt, date: todayStr() });
+    // Subtract from account balance too
+    D.balance = Math.max(0, D.balance - payAmt);
+  }
+
+  debtEditOpen = null;
+  save();
+  showToast(`${debt.name} updated ✦`);
+
+  // Celebration if paid off
+  if (newBal <= 0 && oldBal > 0) {
+    setTimeout(() => showToast(`${debt.name} is paid off! That's huge ✦`), 800);
+  }
+
+  renderDebts();
+  // Also refresh dashboard if we changed the balance
+  if (payAmt > 0 && currentPage === 'debts') renderPage('debts');
+}
+
+// Set target payment modal (inline for now — simple prompt approach)
+function openSetTarget(id) {
+  const debt = D.debts.find(d => d.id === id);
+  if (!debt) return;
+  const current = debt.targetPayment || '';
+  const val = prompt(`Target monthly payment for ${debt.name} (£):`, current);
+  if (val === null) return;
+  const parsed = parseFloat(val);
+  if (isNaN(parsed) || parsed < 0) { showToast('Invalid amount'); return; }
+  debt.targetPayment = parsed;
+  save();
+  showToast(`Target set: ${fmtNoSign(parsed)}/month ✦`);
+  renderDebts();
+}
+
+// ============================================================
+// CALENDAR
+// ============================================================
+
+const CAL_START = { year: 2026, month: 4 };  // April 2026 — fixed, data starts here
+
+// End is always 5 months ahead of today, computed at render time
+function calEnd() {
+  const d = new Date(today().getFullYear(), today().getMonth() + 5, 1);
+  return { year: d.getFullYear(), month: d.getMonth() + 1 };
+}
+
+let calState = { year: 2026, month: 4, selectedDay: null };
+
+// Category → dot colour
+const CAT_COLOR = {
+  housing:       'var(--blue)',
+  utilities:     'var(--yellow)',
+  subscriptions: 'var(--mauve)',
+  family:        'var(--flamingo)',
+  debt:          'var(--red)',
+  food:          'var(--peach)',
+  shopping:      'var(--pink)',
+  transport:     'var(--sapphire)',
+  entertainment: 'var(--lavender)',
+  health:        'var(--teal)',
+  pet:           'var(--sky)',
+  income:        'var(--cream)',
+  zilch:         'var(--teal)',
+  other:         'var(--overlay1)',
+};
+
+// Pre-compute all "every 4 weeks" dates for income src 2 (starting 17 Apr 2026)
+function getEvery4WeeksDates() {
+  const dates = [];
+  let d = new Date('2026-04-17T12:00:00');
+  // Generate 2 years ahead so the rolling window always has data
+  const end = new Date(today().getFullYear() + 2, today().getMonth(), 1);
+  while (d < end) {
+    dates.push(isoDate(d));
+    d = new Date(d.getTime() + 28 * 86400000);
+  }
+  return dates;
+}
+const EVERY4WEEKS_DATES = getEvery4WeeksDates();
+
+function getEventsForDay(dateStr) {
+  const parts  = dateStr.split('-');
+  const dayNum = parseInt(parts[2], 10);
+  const mk     = parts[0] + '-' + parts[1];
+  const events = [];
+
+  // Fixed expenses
+  D.fixedExpenses.forEach(exp => {
+    if (exp.dayOfMonth !== dayNum) return;
+    if (exp.endsAfter && mk > exp.endsAfter) return;
+    events.push({
+      type:     'expense',
+      name:     exp.name,
+      amount:   -exp.amount,
+      color:    CAT_COLOR[exp.category] || CAT_COLOR.other,
+      paid:     (exp.paidMonths || []).includes(mk),
+      expId:    exp.id,
+    });
+  });
+
+  // Income: monthly sources
+  D.income.forEach(src => {
+    let hits = false;
+    if (src.frequency === 'monthly' && src.dayOfMonth === dayNum) {
+      hits = true;
+    } else if (src.frequency === 'every4weeks') {
+      hits = EVERY4WEEKS_DATES.includes(dateStr);
+    }
+    if (!hits) return;
+    events.push({
+      type:     'income',
+      name:     src.name,
+      amount:   src.amount,
+      color:    CAT_COLOR.income,
+      received: (src.received || []).includes(mk),
+      srcId:    src.id,
+    });
+  });
+
+  // Zilch
+  D.zilch.forEach(z => {
+    if (z.date !== dateStr) return;
+    events.push({
+      type:    'zilch',
+      name:    'Zilch',
+      amount:  -z.amount,
+      color:   CAT_COLOR.zilch,
+      paid:    z.paid,
+      zilchId: z.id,
+    });
+  });
+
+  // Logged transactions
+  D.transactions.forEach(tx => {
+    if (tx.date !== dateStr) return;
+    events.push({
+      type:   'transaction',
+      name:   tx.name,
+      amount: tx.amount,
+      color:  CAT_COLOR[tx.category] || CAT_COLOR.other,
+    });
+  });
+
+  return events;
+}
+
+function buildMonthGrid(year, month) {
+  // Grid: Monday-first (UK)
+  const firstDay  = new Date(year, month - 1, 1);
+  const lastDay   = new Date(year, month, 0);
+  const startDow  = (firstDay.getDay() + 6) % 7; // 0=Mon … 6=Sun
+  const daysTotal = lastDay.getDate();
+
+  const cells = [];
+  // Leading empty cells
+  for (let i = 0; i < startDow; i++) cells.push(null);
+  // Actual days
+  for (let d = 1; d <= daysTotal; d++) {
+    cells.push(`${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`);
+  }
+  // Trailing empties to complete grid (multiples of 7)
+  while (cells.length % 7 !== 0) cells.push(null);
+  return cells;
+}
+
+function calMonthLabel(year, month) {
+  return new Date(year, month - 1, 1).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+}
+
+function renderCalendar() {
+  const { year, month, selectedDay } = calState;
+  const cells  = buildMonthGrid(year, month);
+  const todStr = todayStr();
+  const end     = calEnd();
+  const atStart = year === CAL_START.year && month === CAL_START.month;
+  const atEnd   = year === end.year       && month === end.month;
+
+  const dowLabels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+  const gridHtml = cells.map(dateStr => {
+    if (!dateStr) return `<div class="cal-day empty"></div>`;
+    const events = getEventsForDay(dateStr);
+    const isToday    = dateStr === todStr;
+    const isSelected = dateStr === selectedDay;
+    const net = events.reduce((s, e) => s + e.amount, 0);
+    const netColor = net > 0 ? 'var(--cream)' : net < 0 ? 'var(--red)' : 'var(--overlay1)';
+    const dayNum = parseInt(dateStr.split('-')[2], 10);
+
+    const dots = events.map(e =>
+      `<div class="cal-dot" style="background:${e.color};${e.paid || e.received ? 'opacity:0.4' : ''}"></div>`
+    ).join('');
+
+    return `
+      <div class="cal-day ${isToday ? 'is-today' : ''} ${isSelected ? 'selected' : ''}"
+           onclick="selectCalDay('${dateStr}')">
+        <div class="cal-day-num">${dayNum}</div>
+        <div class="cal-dots">${dots}</div>
+        ${net !== 0 ? `<div class="cal-net" style="color:${netColor}">${net > 0 ? '+' : ''}${fmtNoSign(Math.abs(net))}</div>` : ''}
+      </div>`;
+  }).join('');
+
+  // Detail panel for selected day
+  let detailHtml = '';
+  if (selectedDay) {
+    const events = getEventsForDay(selectedDay);
+    const selDate = new Date(selectedDay + 'T12:00:00');
+    const dateLabel = selDate.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+    const net = events.reduce((s, e) => s + e.amount, 0);
+    const netColor = net > 0 ? 'var(--cream)' : net < 0 ? 'var(--red)' : 'var(--overlay1)';
+
+    const eventRows = events.length === 0
+      ? `<p style="color:var(--overlay1);font-style:italic;font-size:0.875rem;padding:0.5rem 0">Nothing scheduled. Free day ✦</p>`
+      : events.map(e => {
+          const isOut = e.amount < 0;
+          const amtColor = e.amount > 0 ? 'var(--cream)' : 'var(--subtext1)';
+          let badge = '';
+          if (e.type === 'zilch')   badge = `<span class="day-event-badge" style="background:rgba(139,213,202,0.15);color:var(--teal)">Zilch</span>`;
+          if (e.type === 'income')  badge = `<span class="day-event-badge" style="background:rgba(232,220,200,0.15);color:var(--cream)">Income</span>`;
+          if (e.paid)   badge += `<span class="day-event-badge" style="background:var(--surface0);color:var(--overlay1)">paid</span>`;
+          if (e.received) badge += `<span class="day-event-badge" style="background:rgba(232,220,200,0.15);color:var(--cream)">received</span>`;
+
+          // Inline action buttons for mark-paid/received
+          let action = '';
+          if (e.type === 'expense' && !e.paid) {
+            action = `<button class="mark-btn" style="margin-left:0.25rem" onclick="markExpensePaidFromCal(${e.expId},'${selectedDay}')">mark paid</button>`;
+          }
+          if (e.type === 'zilch' && !e.paid) {
+            action = `<button class="mark-btn" style="margin-left:0.25rem" onclick="markZilchPaid(${e.zilchId})">mark paid</button>`;
+          }
+          if (e.type === 'income' && !e.received) {
+            action = `<button class="mark-btn" style="margin-left:0.25rem" onclick="markIncomeReceivedFromCal(${e.srcId},'${selectedDay}')">mark received</button>`;
+          }
+
+          return `
+            <div class="day-event-row">
+              <div class="day-event-dot" style="background:${e.color}"></div>
+              <span class="day-event-name">${e.name}</span>
+              <div style="display:flex;align-items:center;gap:0.35rem;flex-wrap:wrap;justify-content:flex-end">
+                ${badge}
+                <span class="day-event-amount" style="color:${amtColor}">${e.amount > 0 ? '+' : '−'}${fmtNoSign(Math.abs(e.amount))}</span>
+                ${action}
+              </div>
+            </div>`;
+        }).join('');
+
+    detailHtml = `
+      <div class="day-detail">
+        <div class="day-detail-header">
+          <div>
+            <div style="font-size:0.95rem;font-weight:600">${dateLabel}</div>
+            ${events.length > 0 ? `<div style="font-size:0.78rem;color:${netColor};margin-top:0.2rem">Net: ${net > 0 ? '+' : ''}${fmtNoSign(Math.abs(net))}</div>` : ''}
+          </div>
+          <div style="display:flex;gap:0.5rem;align-items:center">
+            <button class="btn btn-sm btn-cream" onclick="openLogForDay('${selectedDay}')">+ Log</button>
+            <button class="btn btn-sm btn-ghost" onclick="selectCalDay('${selectedDay}')">✕</button>
+          </div>
+        </div>
+        ${eventRows}
+      </div>`;
+  }
+
+  // Legend
+  const legendItems = [
+    { color: 'var(--cream)',    label: 'Income' },
+    { color: 'var(--blue)',     label: 'Housing' },
+    { color: 'var(--yellow)',   label: 'Utilities' },
+    { color: 'var(--mauve)',    label: 'Subscriptions' },
+    { color: 'var(--flamingo)', label: 'Family' },
+    { color: 'var(--teal)',     label: 'Zilch' },
+    { color: 'var(--red)',      label: 'Debt' },
+  ];
+  const legendHtml = legendItems.map(l =>
+    `<div style="display:flex;align-items:center;gap:0.35rem">
+      <div style="width:7px;height:7px;border-radius:50%;background:${l.color};flex-shrink:0"></div>
+      <span style="font-size:0.72rem;color:var(--overlay1)">${l.label}</span>
+    </div>`
+  ).join('');
+
+  document.getElementById('calendar-content').innerHTML = `
+    <div class="fade-1">
+      <div class="cal-nav">
+        <button class="cal-nav-btn" onclick="calPrev()" ${atStart ? 'disabled' : ''}>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M10 3L5 8l5 5"/>
+          </svg>
+        </button>
+        <span class="cal-month-label">${calMonthLabel(year, month)}</span>
+        <button class="cal-nav-btn" onclick="calNext()" ${atEnd ? 'disabled' : ''}>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M6 3l5 5-5 5"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="cal-dow-row">
+        ${dowLabels.map(d => `<div class="cal-dow">${d}</div>`).join('')}
+      </div>
+
+      <div class="cal-grid">${gridHtml}</div>
+
+      ${detailHtml}
+
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem 1.25rem;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--surface0)">
+        ${legendHtml}
+      </div>
+    </div>
+  `;
+}
+
+function selectCalDay(dateStr) {
+  // Toggle off if clicking the same day
+  calState.selectedDay = calState.selectedDay === dateStr ? null : dateStr;
+  renderCalendar();
+  // Scroll detail into view smoothly
+  if (calState.selectedDay) {
+    setTimeout(() => {
+      const detail = document.querySelector('.day-detail');
+      if (detail) detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 50);
+  }
+}
+
+function calPrev() {
+  let { year, month } = calState;
+  month--;
+  if (month < 1) { month = 12; year--; }
+  calState = { year, month, selectedDay: null };
+  renderCalendar();
+}
+
+function calNext() {
+  let { year, month } = calState;
+  month++;
+  if (month > 12) { month = 1; year++; }
+  calState = { year, month, selectedDay: null };
+  renderCalendar();
+}
+
+function markExpensePaidFromCal(expId, dateStr) {
+  markExpensePaid(expId);
+  calState.selectedDay = dateStr;
+  // renderCalendar is called by markExpensePaid → renderPage
+}
+
+function markIncomeReceivedFromCal(srcId, dateStr) {
+  markIncomeReceived(srcId);
+  calState.selectedDay = dateStr;
+}
+
+function openLogForDay(dateStr) {
+  // Pre-set date context then open log modal
+  _logDate = dateStr;
+  openModal('log-modal');
+}
+
+let _logDate = null;
+
+// ============================================================
+// INIT
+// ============================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderDashboard();
+  // Sync from cloud — if remote is newer, re-render
+  HubSync.sync(STORAGE_KEY).then(function(synced) {
+    if (synced) { D = synced; renderDashboard(); }
+  });
+});
+
+</script>
+
+</body>
+</html>

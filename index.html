@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#24273a">
+  <title>my hub ✦</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --base:      #24273a;
+      --mantle:    #1e2030;
+      --crust:     #181926;
+      --surface0:  #363a4f;
+      --surface1:  #494d64;
+      --surface2:  #5b6078;
+      --overlay0:  #6e738d;
+      --overlay1:  #8087a2;
+      --overlay2:  #939ab7;
+      --subtext0:  #a5adcb;
+      --subtext1:  #b8c0e0;
+      --text:      #cad3f5;
+      --lavender:  #b7bdf8;
+      --blue:      #8aadf4;
+      --sapphire:  #7dc4e4;
+      --sky:       #91d7e3;
+      --teal:      #8bd5ca;
+      --cream:     #e8dcc8;
+      --yellow:    #eed49f;
+      --peach:     #f5a97f;
+      --maroon:    #ee99a0;
+      --red:       #ed8796;
+      --mauve:     #c6a0f6;
+      --pink:      #f5bde6;
+      --flamingo:  #f0c6c6;
+      --rosewater: #f4dbd6;
+      --green:     #a6da95;
+      --font: 'Lora', Georgia, 'Times New Roman', serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; width: 100%; }
+
+    body {
+      background: var(--base);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: calc(1.5rem + env(safe-area-inset-top)) 1.25rem calc(1.5rem + env(safe-area-inset-bottom));
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: none;
+    }
+
+    /* Dot texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: radial-gradient(rgba(202,211,245,0.032) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    /* Floating particles canvas */
+    #particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hub { position: relative; z-index: 1; max-width: 720px; width: 100%; }
+
+    /* Header */
+    .hub-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.5s ease both;
+    }
+    .hub-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--overlay1);
+      margin-bottom: 1rem;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .hub-brand svg { animation: breathe 3s ease-in-out infinite; }
+
+    /* Pixel art companion */
+    .hub-companion {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.65rem;
+      animation: fadeUp 0.4s ease both;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .hub-companion svg {
+      filter: drop-shadow(0 0 6px rgba(232,220,200,0.15));
+      animation: companionFloat 4s ease-in-out infinite;
+    }
+
+    .hub-greeting {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+      margin-bottom: 0.4rem;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .hub-sub {
+      font-size: 1rem;
+      color: var(--overlay1);
+      font-style: italic;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .hub-date-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+    .hub-date {
+      font-size: 0.75rem;
+      color: var(--overlay0);
+      letter-spacing: 0.04em;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .hub-clock {
+      font-size: 0.75rem;
+      color: var(--overlay1);
+      letter-spacing: 0.04em;
+      font-variant-numeric: tabular-nums;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .hub-dot {
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--surface2);
+    }
+
+    /* Cards grid */
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .dash-card {
+      background: var(--mantle);
+      border: 1px solid var(--surface0);
+      border-radius: 16px;
+      padding: 1.75rem 1.75rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      display: block;
+      min-height: 44px;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .dash-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: 16px 16px 0 0;
+      background: var(--card-accent);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .dash-card:active {
+      transform: scale(0.98);
+      opacity: 0.95;
+    }
+    .dash-card:active::before { opacity: 1; }
+
+    .dash-card:nth-child(1) { --card-accent: var(--cream); animation: fadeUp 0.5s 0.15s ease both; }
+    .dash-card:nth-child(2) { --card-accent: var(--teal);  animation: fadeUp 0.5s 0.25s ease both; }
+    .dash-card:nth-child(3) { --card-accent: var(--peach);  animation: fadeUp 0.5s 0.35s ease both; }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.85rem;
+      min-height: 44px;
+    }
+    .card-top-left {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      min-height: 44px;
+    }
+    .card-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.15s;
+    }
+    .dash-card:active .card-icon-wrap { transform: scale(0.95); }
+
+    .card-arrow {
+      color: var(--overlay0);
+      transition: color 0.15s;
+      min-width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 8px;
+    }
+    .dash-card:active .card-arrow {
+      color: var(--card-accent);
+    }
+
+    /* Status badge */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.62rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      line-height: 1;
+      position: relative;
+      overflow: hidden;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .status-badge .dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-on-track .dot { animation: dotPulse 2s ease-in-out infinite; }
+
+    /* Shimmer sweep on badges */
+    .status-badge::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      animation: shimmerSweep 3s ease-in-out infinite;
+    }
+
+    .status-on-track   { color: var(--teal);   background: rgba(139,213,202,0.1); }
+    .status-on-track .dot   { background: var(--teal); }
+    .status-needs-love { color: var(--yellow); background: rgba(238,212,159,0.1); }
+    .status-needs-love .dot { background: var(--yellow); }
+    .status-heads-up   { color: var(--peach);  background: rgba(245,169,127,0.1); }
+    .status-heads-up .dot   { background: var(--peach); }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--overlay1);
+      font-style: italic;
+      line-height: 1.55;
+      margin-bottom: 0.85rem;
+    }
+
+    /* Stats row inside card */
+    .card-stats {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.15s;
+    }
+
+    .stat-val {
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-size: 0.62rem;
+      color: var(--overlay0);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 0.2rem;
+    }
+
+    /* Separator dots */
+    .stat-sep {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--surface2);
+      align-self: center;
+    }
+
+    /* Card footer — last visited */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 0.75rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid var(--surface0);
+      min-height: 44px;
+    }
+    .card-last-visit {
+      font-size: 0.62rem;
+      color: var(--overlay0);
+      font-style: italic;
+      letter-spacing: 0.02em;
+    }
+
+    /* Footer */
+    .hub-footer {
+      text-align: center;
+      margin-top: 2rem;
+      animation: fadeUp 0.5s 0.5s ease both;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .hub-footer-text {
+      font-size: 0.72rem;
+      color: var(--overlay0);
+      font-style: italic;
+      letter-spacing: 0.03em;
+      transition: opacity 0.4s;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* ── KEYFRAMES ────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes breathe {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50%      { opacity: 1;   transform: scale(1.12); }
+    }
+    @keyframes companionFloat {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-4px); }
+    }
+    @keyframes dotPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.5; transform: scale(0.7); }
+    }
+    @keyframes shimmerSweep {
+      0%   { left: -100%; }
+      40%  { left: 100%; }
+      100% { left: 100%; }
+    }
+    @keyframes particleDrift {
+      0%   { transform: translateY(0) translateX(0); opacity: 0; }
+      10%  { opacity: var(--p-opacity); }
+      90%  { opacity: var(--p-opacity); }
+      100% { transform: translateY(var(--p-dy)) translateX(var(--p-dx)); opacity: 0; }
+    }
+    /* ── PIN GATE ── */
+    #pin-gate{position:fixed;inset:0;z-index:99999;background:var(--base);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Lora',serif;gap:18px}
+    #pin-gate.unlocked{display:none}
+    #pin-gate h2{color:var(--text);font-size:1.3rem;font-weight:600;margin:0}
+    #pin-gate p{color:var(--subtext0);font-size:0.85rem;margin:0}
+    #pin-dots{display:flex;gap:14px;margin:12px 0}
+    #pin-dots span{width:14px;height:14px;border-radius:50%;border:2px solid var(--surface2);background:transparent;transition:background .15s}
+    #pin-dots span.filled{background:var(--lavender);border-color:var(--lavender)}
+    #pin-pad{display:grid;grid-template-columns:repeat(3,72px);gap:12px}
+    #pin-pad button{height:72px;border-radius:50%;border:1.5px solid var(--surface1);background:var(--mantle);color:var(--text);font-size:1.4rem;font-family:'Lora',serif;-webkit-tap-highlight-color:transparent;cursor:pointer}
+    #pin-pad button:active{background:var(--surface0)}
+    #pin-pad .wide{grid-column:span 1}
+    #pin-error{color:var(--red,#ed8796);font-size:0.8rem;min-height:1.2em;margin:0}
+  </style>
+</head>
+<body>
+
+<div id="pin-gate">
+  <h2>my hub ✦</h2>
+  <p>enter pin</p>
+  <div id="pin-dots"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  <p id="pin-error"></p>
+  <div id="pin-pad">
+    <button onclick="pinKey('1')">1</button><button onclick="pinKey('2')">2</button><button onclick="pinKey('3')">3</button>
+    <button onclick="pinKey('4')">4</button><button onclick="pinKey('5')">5</button><button onclick="pinKey('6')">6</button>
+    <button onclick="pinKey('7')">7</button><button onclick="pinKey('8')">8</button><button onclick="pinKey('9')">9</button>
+    <button onclick="pinClear()">C</button><button onclick="pinKey('0')">0</button><button onclick="pinDel()">&larr;</button>
+  </div>
+</div>
+<script>
+(function(){
+  var PIN='435183',entry='',dots=document.querySelectorAll('#pin-dots span'),errEl=document.getElementById('pin-error'),gate=document.getElementById('pin-gate');
+  if(sessionStorage.getItem('hub_pin_ok')==='1'){gate.classList.add('unlocked');return}
+  window.pinKey=function(d){if(entry.length>=6)return;entry+=d;updDots();if(entry.length===6){if(entry===PIN){sessionStorage.setItem('hub_pin_ok','1');gate.classList.add('unlocked')}else{errEl.textContent='wrong pin';entry='';setTimeout(updDots,400)}}};
+  window.pinDel=function(){entry=entry.slice(0,-1);updDots();errEl.textContent=''};
+  window.pinClear=function(){entry='';updDots();errEl.textContent=''};
+  function updDots(){for(var i=0;i<dots.length;i++){dots[i].classList.toggle('filled',i<entry.length)}}
+})();
+</script>
+
+<!-- Floating particles -->
+<div id="particles"></div>
+
+<!-- SVG pixel art icons -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden">
+  <defs>
+    <!-- SUN (pixel art, 16x16) -->
+    <symbol id="px-sun" viewBox="0 0 16 16">
+      <g shape-rendering="crispEdges" fill="currentColor">
+        <rect x="7" y="0" width="2" height="2"/>
+        <rect x="7" y="14" width="2" height="2"/>
+        <rect x="0" y="7" width="2" height="2"/>
+        <rect x="14" y="7" width="2" height="2"/>
+        <rect x="2" y="2" width="2" height="2"/>
+        <rect x="12" y="2" width="2" height="2"/>
+        <rect x="2" y="12" width="2" height="2"/>
+        <rect x="12" y="12" width="2" height="2"/>
+        <rect x="5" y="4" width="6" height="1"/>
+        <rect x="4" y="5" width="8" height="1"/>
+        <rect x="4" y="6" width="8" height="4"/>
+        <rect x="4" y="10" width="8" height="1"/>
+        <rect x="5" y="11" width="6" height="1"/>
+      </g>
+    </symbol>
+    <!-- TEA CUP (pixel art, 16x16) -->
+    <symbol id="px-tea" viewBox="0 0 16 16">
+      <g shape-rendering="crispEdges" fill="currentColor">
+        <!-- steam -->
+        <rect x="4" y="0" width="1" height="1" opacity="0.4"/>
+        <rect x="5" y="1" width="1" height="1" opacity="0.3"/>
+        <rect x="7" y="0" width="1" height="1" opacity="0.3"/>
+        <rect x="8" y="1" width="1" height="1" opacity="0.4"/>
+        <!-- cup -->
+        <rect x="2" y="4" width="10" height="2"/>
+        <rect x="2" y="6" width="10" height="5"/>
+        <rect x="3" y="11" width="8" height="1"/>
+        <!-- handle -->
+        <rect x="12" y="5" width="2" height="1"/>
+        <rect x="13" y="6" width="2" height="3"/>
+        <rect x="12" y="9" width="2" height="1"/>
+        <!-- saucer -->
+        <rect x="1" y="13" width="12" height="2"/>
+        <!-- tea fill -->
+        <rect x="3" y="5" width="8" height="5" fill="#8bd5ca" opacity="0.3"/>
+      </g>
+    </symbol>
+    <!-- MOON (pixel art, 16x16) -->
+    <symbol id="px-moon" viewBox="0 0 16 16">
+      <g shape-rendering="crispEdges" fill="currentColor">
+        <rect x="6" y="1" width="4" height="1"/>
+        <rect x="4" y="2" width="6" height="1"/>
+        <rect x="3" y="3" width="5" height="1"/>
+        <rect x="2" y="4" width="5" height="1"/>
+        <rect x="2" y="5" width="4" height="1"/>
+        <rect x="2" y="6" width="4" height="1"/>
+        <rect x="2" y="7" width="4" height="1"/>
+        <rect x="2" y="8" width="4" height="1"/>
+        <rect x="2" y="9" width="4" height="1"/>
+        <rect x="2" y="10" width="5" height="1"/>
+        <rect x="3" y="11" width="5" height="1"/>
+        <rect x="4" y="12" width="6" height="1"/>
+        <rect x="6" y="13" width="4" height="1"/>
+        <!-- stars -->
+        <rect x="11" y="2" width="1" height="1" opacity="0.5"/>
+        <rect x="13" y="5" width="1" height="1" opacity="0.4"/>
+        <rect x="10" y="8" width="1" height="1" opacity="0.3"/>
+        <rect x="14" y="10" width="1" height="1" opacity="0.5"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="hub">
+  <!-- Header -->
+  <div class="hub-header">
+    <div class="hub-brand">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="var(--cream)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8" cy="8" r="2.5"/>
+        <path d="M8 1v2M8 13v2M1 8h2M13 8h2"/>
+        <path d="M3.5 3.5l1.2 1.2M11.3 11.3l1.2 1.2M12.5 3.5l-1.2 1.2M4.7 11.3l-1.2 1.2"/>
+      </svg>
+      my hub
+    </div>
+    <div class="hub-companion" id="companion"></div>
+    <h1 class="hub-greeting" id="greeting"></h1>
+    <p class="hub-sub" id="sub-greeting"></p>
+    <div class="hub-date-row">
+      <span class="hub-date" id="date-line"></span>
+      <span class="hub-dot"></span>
+      <span class="hub-clock" id="clock"></span>
+    </div>
+  </div>
+
+  <!-- Dashboard cards -->
+  <div class="cards">
+
+    <!-- PROJECTS -->
+    <a class="dash-card" href="Projects-Mobile.html">
+      <div class="card-top">
+        <div class="card-top-left">
+          <div class="card-icon-wrap" style="background:rgba(232,220,200,0.1)">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="var(--cream)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="14" height="14" rx="2"/>
+              <line x1="7" y1="7" x2="13" y2="7"/>
+              <line x1="7" y1="10" x2="11" y2="10"/>
+              <line x1="7" y1="13" x2="9" y2="13"/>
+            </svg>
+          </div>
+          <span class="status-badge" id="status-projects"></span>
+        </div>
+        <svg class="card-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="9" x2="14" y2="9"/><polyline points="10,5 14,9 10,13"/>
+        </svg>
+      </div>
+      <div class="card-title">Projects</div>
+      <div class="card-desc">University assignments, Etsy shop &amp; product pipeline.</div>
+      <div class="card-stats" id="stats-projects">
+        <div class="stat"><span class="stat-val" style="color:var(--cream)">—</span><span class="stat-label">products</span></div>
+      </div>
+      <div class="card-footer"><span class="card-last-visit" id="visit-projects"></span></div>
+    </a>
+
+    <!-- WELLBEING -->
+    <a class="dash-card" href="Wellbeing-Mobile.html">
+      <div class="card-top">
+        <div class="card-top-left">
+          <div class="card-icon-wrap" style="background:rgba(139,213,202,0.1)">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="var(--teal)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 17s-6-4.2-6-8.4a6 6 0 0 1 12 0c0 4.2-6 8.4-6 8.4z"/>
+            </svg>
+          </div>
+          <span class="status-badge" id="status-wellbeing"></span>
+        </div>
+        <svg class="card-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="9" x2="14" y2="9"/><polyline points="10,5 14,9 10,13"/>
+        </svg>
+      </div>
+      <div class="card-title">Wellbeing</div>
+      <div class="card-desc">Mood, habits, weight, food diary &amp; daily reflections.</div>
+      <div class="card-stats" id="stats-wellbeing">
+        <div class="stat"><span class="stat-val" style="color:var(--teal)">—</span><span class="stat-label">habits</span></div>
+      </div>
+      <div class="card-footer"><span class="card-last-visit" id="visit-wellbeing"></span></div>
+    </a>
+
+    <!-- FINANCE -->
+    <a class="dash-card" href="Finance-Mobile.html">
+      <div class="card-top">
+        <div class="card-top-left">
+          <div class="card-icon-wrap" style="background:rgba(245,169,127,0.1)">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="var(--peach)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="5" width="16" height="11" rx="2"/>
+              <line x1="2" y1="9" x2="18" y2="9"/>
+              <rect x="12" y="12" width="3" height="2" rx="0.5"/>
+            </svg>
+          </div>
+          <span class="status-badge" id="status-finance"></span>
+        </div>
+        <svg class="card-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="9" x2="14" y2="9"/><polyline points="10,5 14,9 10,13"/>
+        </svg>
+      </div>
+      <div class="card-title">Finance</div>
+      <div class="card-desc">Budget, bills, debts &amp; spending tracker.</div>
+      <div class="card-stats" id="stats-finance">
+        <div class="stat"><span class="stat-val" style="color:var(--peach)">—</span><span class="stat-label">balance</span></div>
+      </div>
+      <div class="card-footer"><span class="card-last-visit" id="visit-finance"></span></div>
+    </a>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="hub-footer">
+    <p class="hub-footer-text" id="footer-quote"></p>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ── Supabase Sync Engine ────────────────────────────────
+var HubSync = {
+  _u: 'https://wsmrcqerdrsvxwplgvmu.supabase.co',
+  _k: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndzbXJjcWVyZHJzdnh3cGxndm11Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0NzEwNjIsImV4cCI6MjA5MTA0NzA2Mn0.dgCIuuoMnJuWd855LPx-ATwpscFCQFOWeHJ5RpwY3qM',
+  _h: function() { return { 'apikey': this._k, 'Authorization': 'Bearer ' + this._k }; },
+  pull: function(key) {
+    return fetch(this._u + '/rest/v1/hub_sync?key=eq.' + encodeURIComponent(key) + '&select=data,updated_at', { headers: this._h() })
+      .then(function(r) { return r.json(); })
+      .then(function(rows) { return rows.length > 0 ? rows[0] : null; })
+      .catch(function() { return null; });
+  },
+  push: function(key, data) {
+    var now = new Date().toISOString();
+    try { localStorage.setItem(key + '__syncTs', now); } catch(e) {}
+    return fetch(this._u + '/rest/v1/hub_sync?key=eq.' + encodeURIComponent(key), {
+      method: 'PATCH',
+      headers: Object.assign({ 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }, this._h()),
+      body: JSON.stringify({ data: data, updated_at: now })
+    }).catch(function() {});
+  },
+  sync: function(key) {
+    var self = this;
+    return this.pull(key).then(function(remote) {
+      var localStr; try { localStr = localStorage.getItem(key); } catch(e) {}
+      var local = null; try { local = JSON.parse(localStr); } catch(e) {}
+      var remoteEmpty = !remote || !remote.data || JSON.stringify(remote.data) === '{}' || JSON.stringify(remote.data) === 'null';
+      if (remoteEmpty) { if (local) self.push(key, local); return local; }
+      var localTs; try { localTs = localStorage.getItem(key + '__syncTs'); } catch(e) {}
+      var remoteTime = new Date(remote.updated_at).getTime();
+      var localTime = localTs ? new Date(localTs).getTime() : 0;
+      if (remoteTime > localTime) {
+        try { localStorage.setItem(key, JSON.stringify(remote.data)); localStorage.setItem(key + '__syncTs', remote.updated_at); } catch(e) {}
+        return remote.data;
+      } else { self.push(key, local); return local; }
+    });
+  }
+};
+
+// ── Floating particles (reduced for battery life) ───────────────────────────────────
+(function initParticles() {
+  var container = document.getElementById('particles');
+  var colors = ['#e8dcc8','#8bd5ca','#c6a0f6','#f5a97f','#eed49f','#b7bdf8','#f5bde6'];
+  var count = 8;
+  for (var i = 0; i < count; i++) {
+    var dot = document.createElement('div');
+    var size = 2 + Math.random() * 3;
+    var x = Math.random() * 100;
+    var dur = 12 + Math.random() * 20;
+    var delay = Math.random() * dur;
+    var dy = -(80 + Math.random() * 200);
+    var dx = -40 + Math.random() * 80;
+    var opacity = 0.15 + Math.random() * 0.2;
+    dot.style.cssText = 'position:absolute;border-radius:50%;'
+      + 'width:' + size + 'px;height:' + size + 'px;'
+      + 'left:' + x + '%;bottom:-10px;'
+      + 'background:' + colors[i % colors.length] + ';'
+      + '--p-dy:' + dy + 'px;--p-dx:' + dx + 'px;--p-opacity:' + opacity + ';'
+      + 'animation:particleDrift ' + dur + 's ' + delay + 's linear infinite;';
+    container.appendChild(dot);
+  }
+})();
+
+// ── Pixel art companion ──────────────────────────────────
+function setCompanion() {
+  var h = new Date().getHours();
+  var icon, color;
+  if (h >= 5 && h < 12) { icon = '#px-sun'; color = '#eed49f'; }
+  else if (h >= 12 && h < 18) { icon = '#px-tea'; color = '#8bd5ca'; }
+  else { icon = '#px-moon'; color = '#c6a0f6'; }
+  document.getElementById('companion').innerHTML =
+    '<svg width="28" height="28" color="' + color + '"><use href="' + icon + '"/></svg>';
+}
+
+// ── Quotes ───────────────────────────────────────────────
+var QUOTES = [
+  'Everything in one place \u2726',
+  'Small steps, every day \u2726',
+  'Be gentle with yourself \u2726',
+  'You are more than your to-do list \u2726',
+  'Progress, not perfection \u2726',
+  'One thing at a time \u2726',
+  'Rest is productive too \u2726',
+  'You\'ve got this \u2726',
+  'Breathe. You\'re doing fine \u2726',
+  'Celebrate the small wins \u2726',
+  'Today is enough \u2726',
+  'Consistency over intensity \u2726',
+];
+
+// ── Clock ────────────────────────────────────────────────
+function updateClock() {
+  var now = new Date();
+  var h = now.getHours();
+  var m = String(now.getMinutes()).padStart(2, '0');
+  var ampm = h >= 12 ? 'pm' : 'am';
+  var h12 = h % 12 || 12;
+  document.getElementById('clock').textContent = h12 + ':' + m + ' ' + ampm;
+}
+
+// ── Relative time ────────────────────────────────────────
+function timeAgo(isoStr) {
+  if (!isoStr) return null;
+  var diff = Date.now() - new Date(isoStr).getTime();
+  var mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'just now';
+  if (mins < 60) return mins + 'm ago';
+  var hrs = Math.floor(mins / 60);
+  if (hrs < 24) return hrs + 'h ago';
+  var days = Math.floor(hrs / 24);
+  if (days === 1) return 'yesterday';
+  if (days < 7) return days + 'd ago';
+  var weeks = Math.floor(days / 7);
+  return weeks + 'w ago';
+}
+
+// ── Count-up animation ──────────────────────────────────
+function countUp(el, target, duration) {
+  if (!el || isNaN(target)) return;
+  var start = 0;
+  var startTime = null;
+  var prefix = '';
+  var suffix = '';
+  var text = el.textContent;
+  var numMatch = text.match(/^([^0-9\-]*)(-?[\d.]+)(.*)$/);
+  if (numMatch) {
+    prefix = numMatch[1];
+    suffix = numMatch[3];
+    target = parseFloat(numMatch[2]);
+  }
+  var isInt = target === Math.floor(target);
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    var progress = Math.min((ts - startTime) / duration, 1);
+    var eased = 1 - Math.pow(1 - progress, 3);
+    var current = start + (target - start) * eased;
+    el.textContent = prefix + (isInt ? Math.round(current) : current.toFixed(1)) + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ── Greeting ─────────────────────────────────────────────
+function init() {
+  var now = new Date();
+  var h = now.getHours();
+  var timeOfDay = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
+  var name = getName();
+
+  document.getElementById('greeting').textContent = 'Good ' + timeOfDay + ', ' + name + '.';
+
+  var subs = {
+    morning:   ['A fresh start awaits.', 'What matters most today?', 'Here when you\'re ready.'],
+    afternoon: ['How\'s today going?', 'Taking a moment to check in.', 'You\'re doing great.'],
+    evening:   ['Winding down?', 'Time to reflect on the day.', 'Rest well tonight.'],
+  };
+  var options = subs[timeOfDay];
+  document.getElementById('sub-greeting').textContent = options[now.getDate() % options.length];
+
+  document.getElementById('date-line').textContent = now.toLocaleDateString('en-GB', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+  });
+
+  setCompanion();
+  updateClock();
+  setInterval(updateClock, 10000);
+
+  showQuote();
+  setInterval(showQuote, 30000);
+
+  loadLastVisited();
+
+  loadProjectsStats();
+  loadWellbeingStats();
+  loadFinanceStats();
+
+  setTimeout(function() {
+    document.querySelectorAll('.stat-val').forEach(function(el) {
+      var text = el.textContent;
+      if (text && text !== '\u2014' && /\d/.test(text)) {
+        countUp(el, 0, 800);
+      }
+    });
+  }, 600);
+
+  // Sync from Supabase then refresh stats
+  Promise.all([
+    HubSync.sync('projects_v1_eliza'),
+    HubSync.sync('wellbeing_v1_eliza'),
+    HubSync.sync('finances_v2_eliza'),
+    HubSync.sync('hub_lastVisit_projects'),
+    HubSync.sync('hub_lastVisit_wellbeing'),
+    HubSync.sync('hub_lastVisit_finance')
+  ]).then(function() {
+    loadProjectsStats();
+    loadWellbeingStats();
+    loadFinanceStats();
+    loadLastVisited();
+  }).catch(function() {});
+}
+
+function getName() {
+  try {
+    var w = JSON.parse(localStorage.getItem('wellbeing_v1_eliza'));
+    if (w && w.profile && w.profile.name) return w.profile.name;
+  } catch(e) {}
+  try {
+    var f = JSON.parse(localStorage.getItem('finances_v2_eliza'));
+    if (f && f.profile && f.profile.name) return f.profile.name;
+  } catch(e) {}
+  return 'Eliza';
+}
+
+function todayStr() { return new Date().toISOString().slice(0, 10); }
+
+// ── Quote rotation ───────────────────────────────────────
+var lastQuoteIdx = -1;
+function showQuote() {
+  var idx;
+  do { idx = Math.floor(Math.random() * QUOTES.length); } while (idx === lastQuoteIdx && QUOTES.length > 1);
+  lastQuoteIdx = idx;
+  var el = document.getElementById('footer-quote');
+  el.style.opacity = '0';
+  setTimeout(function() {
+    el.textContent = QUOTES[idx];
+    el.style.opacity = '1';
+  }, 400);
+}
+
+// ── Last visited ─────────────────────────────────────────
+function loadLastVisited() {
+  var keys = {
+    projects:  'hub_lastVisit_projects',
+    wellbeing: 'hub_lastVisit_wellbeing',
+    finance:   'hub_lastVisit_finance'
+  };
+  for (var name in keys) {
+    try {
+      var ts = localStorage.getItem(keys[name]);
+      var ago = timeAgo(ts);
+      var el = document.getElementById('visit-' + name);
+      if (el) el.textContent = ago ? 'Visited ' + ago : 'Not yet visited';
+    } catch(e) {}
+  }
+}
+
+// ── Status helpers ───────────────────────────────────────
+function setBadge(id, level, text) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var cls = 'status-badge ';
+  if (level === 'good') cls += 'status-on-track';
+  else if (level === 'ok')   cls += 'status-needs-love';
+  else                        cls += 'status-heads-up';
+  el.className = cls;
+  el.innerHTML = '<span class="dot"></span>' + text;
+}
+
+// ── Projects stats ───────────────────────────────────────
+function loadProjectsStats() {
+  try {
+    var data = JSON.parse(localStorage.getItem('projects_v1_eliza'));
+    if (!data || !data.etsy) return;
+    var products = (data.etsy.products || []);
+    var listed = products.filter(function(p) { return p.stage === 'listed'; }).length;
+    var pipeline = products.filter(function(p) { return p.stage !== 'listed'; }).length;
+
+    var stats = data.etsy.weeklyStats || [];
+    var latest = stats.length > 0 ? stats[stats.length - 1] : null;
+
+    var html = '';
+    html += stat(listed, 'listed', 'var(--cream)');
+    if (pipeline > 0) { html += sep() + stat(pipeline, 'in pipeline', 'var(--mauve)'); }
+    if (latest && latest.revenue != null) { html += sep() + stat('\u00a3' + latest.revenue.toFixed(0), 'this week', 'var(--yellow)'); }
+
+    document.getElementById('stats-projects').innerHTML = html;
+
+    var uni = data.uni || {};
+    var assignments = uni.assignments || [];
+    var now = new Date();
+    var soonDue = assignments.filter(function(a) {
+      if (a.submitted) return false;
+      var due = new Date(a.dueDate);
+      var daysLeft = (due - now) / 86400000;
+      return daysLeft >= 0 && daysLeft <= 7;
+    }).length;
+
+    if (soonDue > 0) setBadge('status-projects', 'warn', 'Due soon');
+    else if (pipeline > 0 || listed > 0) setBadge('status-projects', 'good', 'On track');
+    else setBadge('status-projects', 'ok', 'Needs love');
+  } catch(e) {}
+}
+
+// ── Wellbeing stats ──────────────────────────────────────
+function loadWellbeingStats() {
+  try {
+    var data = JSON.parse(localStorage.getItem('wellbeing_v1_eliza'));
+    if (!data) return;
+
+    var td = todayStr();
+    var habits = data.habits || [];
+    var doneToday = habits.filter(function(h) { return (h.completedDates || []).indexOf(td) !== -1; }).length;
+    var totalHabits = habits.length;
+
+    var currentW = data.weight ? data.weight.current : null;
+    var goalW = data.weight ? data.weight.goal : null;
+
+    var todayMood = null;
+    var moods = data.mood || [];
+    for (var i = 0; i < moods.length; i++) { if (moods[i].date === td) { todayMood = moods[i]; break; } }
+
+    var topStreak = 0;
+    habits.forEach(function(h) {
+      var dates = (h.completedDates || []).slice().sort().reverse();
+      var streak = 0, checkDate = td;
+      for (var j = 0; j < dates.length; j++) {
+        if (dates[j] === checkDate) {
+          streak++;
+          var prev = new Date(checkDate);
+          prev.setDate(prev.getDate() - 1);
+          checkDate = prev.toISOString().slice(0, 10);
+        } else if (dates[j] < checkDate) break;
+      }
+      if (streak > topStreak) topStreak = streak;
+    });
+
+    var html = '';
+    html += stat(doneToday + '/' + totalHabits, 'habits today', 'var(--teal)');
+    if (topStreak > 0) html += sep() + stat(topStreak + 'd', 'top streak', 'var(--yellow)');
+    if (todayMood) html += sep() + stat(todayMood.score + '/10', 'mood', moodColor(todayMood.score));
+    if (currentW && goalW) html += sep() + stat(currentW + ' lbs', 'weight', 'var(--cream)');
+
+    document.getElementById('stats-wellbeing').innerHTML = html;
+
+    var habitRatio = totalHabits > 0 ? doneToday / totalHabits : 0;
+    var moodLow = todayMood && parseInt(todayMood.score) <= 3;
+
+    if (moodLow || (habitRatio < 0.3 && totalHabits > 0)) setBadge('status-wellbeing', 'warn', 'Heads up');
+    else if (habitRatio >= 0.5 || totalHabits === 0) setBadge('status-wellbeing', 'good', 'On track');
+    else setBadge('status-wellbeing', 'ok', 'Needs love');
+  } catch(e) {}
+}
+
+// ── Finance stats ────────────────────────────────────────
+function loadFinanceStats() {
+  try {
+    var data = JSON.parse(localStorage.getItem('finances_v2_eliza'));
+    if (!data) return;
+
+    var balance = data.balance != null ? data.balance : null;
+    var currency = (data.profile && data.profile.currency) || '\u00a3';
+
+    var debts = data.debts || [];
+    var totalDebt = debts.reduce(function(s, d) { return s + (d.balance || 0); }, 0);
+
+    var now = new Date();
+    var monthKey = now.toISOString().slice(0, 7);
+    var unpaidBills = (data.fixedExpenses || []).filter(function(e) { return !(e.paidMonths || []).includes(monthKey); }).length;
+
+    var html = '';
+    if (balance != null) html += stat(currency + balance.toFixed(0), 'balance', 'var(--peach)');
+    if (unpaidBills > 0) html += sep() + stat(unpaidBills, 'bills due', 'var(--yellow)');
+    if (totalDebt > 0) html += sep() + stat(currency + totalDebt.toFixed(0), 'total debt', 'var(--red)');
+
+    document.getElementById('stats-finance').innerHTML = html;
+
+    var securityNet = data.securityNet || {};
+    var netGoalMet = securityNet.goal && securityNet.balance >= securityNet.goal;
+
+    if (balance != null && balance < 0) setBadge('status-finance', 'warn', 'Heads up');
+    else if (unpaidBills > 3) setBadge('status-finance', 'warn', 'Heads up');
+    else if (unpaidBills > 0 || (totalDebt > 0 && !netGoalMet)) setBadge('status-finance', 'ok', 'Needs love');
+    else setBadge('status-finance', 'good', 'On track');
+  } catch(e) {}
+}
+
+// ── Helpers ──────────────────────────────────────────────
+function stat(val, label, color) {
+  return '<div class="stat"><span class="stat-val" style="color:' + color + '">' + val + '</span><span class="stat-label">' + label + '</span></div>';
+}
+function sep() {
+  return '<div class="stat-sep"></div>';
+}
+function moodColor(score) {
+  var s = parseInt(score);
+  if (s <= 2) return 'var(--red)';
+  if (s <= 4) return 'var(--peach)';
+  if (s <= 6) return 'var(--yellow)';
+  if (s <= 8) return 'var(--teal)';
+  return 'var(--cream)';
+}
+
+init();
+</script>
+</body>
+</html>
